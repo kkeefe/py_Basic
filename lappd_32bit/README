@@ -1,0 +1,89 @@
+Here are some useful one-liners when working with the boards running this software.
+
+**********************
+*
+* WORKING WITH DATA
+*
+**********************
+
+Capturing data being sent to the default port 1338, into 'dumpfile':
+
+   $ nc -u -l -p 1338 > dumpfile
+
+Explanation:
+nc is netcat, which makes a bridge between stdin stdout and a socket
+-u means UDP protocol
+-l means listen
+-p 1338 gives the port to listen to
+> dumpfile means redirect stdout to a file named dumpfile.  It will overwrite it if it already exists
+
+-------------------
+
+Viewing data as 32-bit hex words as it comes in:
+
+   $ nc -u -l -p 1338 | xxd -p -c 4
+
+Explanation:
+See description above for netcat.
+| , or pipe, means redirect stdout from the process on the left of the "|" to stdin of the process on the right
+xxd converts between binary and hex representation in ASCII.  It operates on a per-byte level, so does not fuck you (c.f. hexdump) with endianness (WYSIWYGot)
+-p means expect/produce a stream
+-c 4 means give it in rows of 4 bytes
+
+---------------------
+
+Seeing what version a board is
+
+   $ echo "1337ca75 00000000 fffffffe" | xxd -r -p | nc -u 10.0.6.193 1337 | xxd -p -c 4
+
+Explanation:
+echo "whatever" outouts "whatever" on stdin.  The hex string is interpreted as follows.
+For v2 software, the first 32bits is the LAPPD protocol magic.
+For v2 software, the second 32bits is the version.  If it does not match the hardware version of the target board, the board will ecbo back with its version.
+For v2 software, the third 32bits is a message id.  The board will increment this number by 1, and echo it back.
+| (see above)
+xxd with the -r flag means to produce binary from ASCII representation hex.  The -p flag means to process as it comes in, not just blast 0x0 (for some reason).
+nc without the -l flag means to initiate an outgoing connection, instead of listening.
+
+WARNINGS:
+Don't try to pass -rp to xxd, or forget the -p flag.  xxd will not parse the combined flag correctly.
+It will then search for an EOF on the echo, but since its an echo there won't be one.  So it will
+spew 0x0 as fast as possible at the card.  This kills the card.
+
+*******************************
+*
+* USING THE BOARD WITHOUT DHCP
+*
+*******************************
+
+Assigning IP address 10.0.6.56 to a board in lone-wolf mode (dhcpdless)
+This only works if its directly connected on the same physical switch,
+or literally directly connected [crossoverd]:
+
+   $ ping 10.0.6.56  (wait a bit)
+
+Explanation:
+ping sends ICMP echo requests to the specified host.  This triggers
+an ARP lookup on *your* machine.  The board uses these ARP lookups to
+figure out it should become the specified host.  This is non-standard usage of arp!
+
+--------------------
+
+Disassociating a board with mac address 6a:27:d5:89:3d:01 in lone-wolf (dhcpdless) that has seized onto 10.0.6.90
+(notice that it requires root or a setuid arping.  ping is setuid root by default):
+
+   # /usr/sbin/arping -P -A 10.0.6.90 -S 10.0.6.90 -t 6a:27:d5:89:3d:01 -s 54:12:12:12:12:12 -c 1  
+
+Explanation:
+arping sends raw ARP packets.
+-P says send an ARP Reply (as if someone asked who we were)
+-A does something I don't quite get, but its definitely necessary
+-S sets the source IP in the packet (we're making a packet that looks like it didn't come from ourselves)
+-t sets the target MAC address in the packet
+-s sets the source MAC address in the packet
+-c 1 says only send out one of them
+The board watches for anyone else telling it that its IP address is already taken.
+When it first seizes the address, it sends a Request for the address.
+You can send a fake response at any later time to get it to "release" the address.
+The board will remember (up to arp cache depth, usually 10) that this one was off limits and not seize it again.
+
