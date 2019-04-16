@@ -13,8 +13,8 @@ IRS_OFFSET_JUMP   = 0x0100 << 2
 IRS_THRESH_OFFSET = (129-1) << 2
 IRS_VOFS1_OFFSET  = (130-1) << 2
 IRS_VOFS2_OFFSET  = (131-1) << 2
-IRS_WBIAS_OFFSET  = (132-1) << 2
 IRS_CHANNEL_JUMP  = 0x4 << 2
+IRS_WBIAS_OFFSET  = (132-1) << 2
 IRS_DIGREG_ADDR   = (169-1) << 2
 IRS_TBBIAS_ADDR   = (161-1) << 2
 IRS_ITBIAS_ADDR   = (164-1) << 2
@@ -48,7 +48,7 @@ def configIrsTrigger(board, asicNum):
     # Reassignments do not mutate order.
     #
     # This is the Python standard collections framework
-    o_regmap = oi.OrderedDict()
+    o_regmap = collections.OrderedDict()
     
     # Channel specific registers
     for chanNum in range(0,8):
@@ -134,6 +134,9 @@ for myboard in boards:
     
     myboard.pokenow( 0x1000 , 0x2 )
     myboard.pokenow( 0x1004 , 0x1 )
+    # # Kkeefe
+    # # the register write to attempt a software trigger:
+    # myboard.pokenow( 0x1028,  0x1 )
     input("Firing once...")
     myboard.pokenow( 0x1028 , 0x1 )
     input("...done.")

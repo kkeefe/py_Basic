@@ -2,7 +2,7 @@
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "python.pythonPath": "/usr/local/bin/python3",
-    "python.envFile": "${workspaceFolder}/py_envVar/",
+    "python.envFile": "${workspaceFolder}/.env",
     "python.linting.pep8Enabled": false,
     "python.linting.banditEnabled": false
 }
