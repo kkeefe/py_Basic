@@ -1,3 +1,6 @@
+
+import numpy as np
+
 print("this line will be printed")
 
 mult = lambda x,y: x * y
