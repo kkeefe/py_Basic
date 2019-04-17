@@ -1,4 +1,3 @@
-
 import numpy as np
 
 print("this line will be printed")

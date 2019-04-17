@@ -1,0 +1,13 @@
+*.h
+*.txt
+*.pyc
+*.dSYM
+*ipch*
+*~
+.DS_Store/
+
+#ignore anything in stupid vscode dir..
+.vscode/ipch/*
+.vsode/**/
+__/pycache__/
+lappd_32bit/__pycache__/

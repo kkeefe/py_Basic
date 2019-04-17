@@ -1,7 +1,7 @@
 {
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.pythonPath": "/usr/local/bin/python3",
+    "python.pythonPath": "/Library/Frameworks/Python.framework/Versions/3.7/bin/python3",
     "python.envFile": "${workspaceFolder}/.env",
     "python.linting.pep8Enabled": false,
     "python.linting.banditEnabled": false
