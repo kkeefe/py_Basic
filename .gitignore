@@ -8,6 +8,6 @@
 
 #ignore anything in stupid vscode dir..
 .vscode/ipch/*
-.vsode/**/
+.vscode/*
 __/pycache__/
 lappd_32bit/__pycache__/
