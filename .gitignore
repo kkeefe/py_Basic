@@ -2,12 +2,14 @@
 *.txt
 *.pyc
 *.dSYM
-*ipch*
+.ipch*
 *~
 .DS_Store/
 
 #ignore anything in stupid vscode dir..
-.vscode/ipch/*
-.vscode/*
+.vscode/
+.vscode/ipch/
+
+#ignore these bullshit files too
 __/pycache__/
 lappd_32bit/__pycache__/
