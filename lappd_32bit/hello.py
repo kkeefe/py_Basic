@@ -93,9 +93,9 @@ for board in my_boards:
     print("value from data_addr_aft: %s" % hex(result))
 
     input("lets attempt a software trigger! Soft register is a read only reg.. Reads evtNumber: ")
-    result = board.peeknow( IRS_SOFT_TRIG ) # note this also sets read_data_enable to FSM..
+    result = board.peeknow( IRS_SOFT_TRIG) # note this also sets read_data_enable to FSM..
     print("value read from the software trig: %s" % hex(result))
-    result = board.pokenow( IRS_SOFT_TRIG , 0xf , silent="TRUE" ) # note this also sets read_data_enable to FSM..
+    result = board.pokenow( IRS_SOFT_TRIG , 0xf ) # note this also sets read_data_enable to FSM..
 
     # input("lets attempt a software trig with a peek value.. ")
     # board.peek( IRS_SOFT_TRIG ) # note this also sets read_data_enable to FSM..
