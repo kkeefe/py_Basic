@@ -84,6 +84,7 @@ def loadHeaders():
 class LAPPDException(Exception):
     pass
 
+
 # Discover the LAPPD boards on a subnet
 def discover(broadcast, version="cafe0002", timeout=0.1):
 
@@ -239,6 +240,7 @@ class payload:
         elif not payload is None:
             raise TypeError("Payloads, if given, must be type bytes or bytearray")
 
+                
 class board:
 
     def __init__(self, machine):
@@ -438,7 +440,7 @@ class board:
             # IP datagram: 1 << 16, even though the lappd boards will never
             # send more than max ethernet frame.
 
-            ready = select.select([self.s], [], [], 0.1)
+            ready = select.select([self.s], [], [], self.delay + 0.1)
 
             if ready[0]:
                 # We attempt to read magic, version, and message id
@@ -573,3 +575,4 @@ class board:
         # It needs to be written to the register as a big endian byte string
         # So its network order is actually little endian.  endianness sucks.
         self.pokenow(NBIC_OFFSET | REG_NBIC_DESTIP, int.from_bytes(ipaddr, byteorder='little'))
+        

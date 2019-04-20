@@ -8,7 +8,7 @@ from random import randint
 import collections 
 
 IRS_REGRST_ADDR   = 0x1030
-IRS_OFFSET_ADDR   = 0x4000
+IRS_OFFSET_ADDR   = 0x4000  #address for the ASIC's dacs..
 IRS_OFFSET_JUMP   = 0x0100 << 2
 IRS_THRESH_OFFSET = (129-1) << 2
 IRS_VOFS1_OFFSET  = (130-1) << 2
@@ -28,6 +28,7 @@ IRS_DATA_BEF       = 0x1004 # data_en off
 IRS_SOFT_TRIG      = 0x1028 # toggles data_en on
 IRS_SCALER_PRD     = 0x1100 
 IRS_NBIC_PORTS     = 0x0218
+IRS_SCALER_PRD     = 0x2000 # you can or the particular register value you want to read with this offset.
 
 if len(sys.argv) < 2:
     print("Usage: %s <broadcast address>" % sys.argv[0], file=sys.stderr)
@@ -38,7 +39,7 @@ print("IRS python interface test stub")
 print("----------------------------------")
 
 # # find all of the boards on the network
-my_boards = lappd.discover(sys.argv[1])
+my_boards = lappd.discover(sys.argv[1], timeout=1.0)
 
 # do soem stuff to the boards, but will likely be only doing this to the IRS board..
 for board in my_boards:
@@ -73,13 +74,13 @@ for board in my_boards:
     # result = board.peeknow( 0x0020 )
     # print("value from  the itchy read is: %s" % hex(result))
 
-    input("lets trying writing to data_addr_bef")
+    print("lets trying writing to data_addr_bef")
     board.pokenow( IRS_DATA_BEF , 0x1 )
     result = board.peeknow( IRS_DATA_BEF )
     print("value from data_addr_bef is: %s" % hex(result))
 
-    input("lets trying writing to data_addr_aft:")
-    board.pokenow( IRS_DATA_AFT, 0x1 )
+    print("lets trying writing to data_addr_aft:")
+    board.pokenow( IRS_DATA_AFT , 0x1 )
     result = board.peeknow( IRS_DATA_AFT )
     print("value from data_addr_aft: %s" % hex(result))
 
@@ -87,38 +88,29 @@ for board in my_boards:
     result = board.peeknow( IRS_NBIC_PORTS )
     print("value from data_addr_aft: %s" % hex(result))
     
-    input("lets try writing to the scaler_period..")
-    board.pokenow( IRS_SCALER_PRD, 0xfffe )
-    result = board.peeknow( IRS_SCALER_PRD )
+    input("lets try writing to the soft trigger..")
+    board.delay = 1000.0
+    board.pokenow( 0x4000 , 0xf )
+    # result = board.peeknow( 0x4000 )
     print("value from data_addr_aft: %s" % hex(result))
 
-    input("lets attempt a software trigger! Soft register is a read only reg.. Reads evtNumber: ")
-    result = board.peeknow( IRS_SOFT_TRIG) # note this also sets read_data_enable to FSM..
-    print("value read from the software trig: %s" % hex(result))
-    result = board.pokenow( IRS_SOFT_TRIG , 0xf ) # note this also sets read_data_enable to FSM..
+    # input("lets try writing to some of the ASIC registers")    
+    # for asic_num in range(0,8):
+    #     asic = lambda x : (IRS_OFFSET_ADDR | asic_num * IRS_OFFSET_JUMP | x )
+    #     for ch_hum in range(0,8):
+    #         addr = asic(ch_hum)
+    #         print(hex(addr))
+    #         board.pokenow( addr , 0x0 , silent=True)
+    #         result = board.peeknow( addr  )
+    #         # print("value from %s: %s" % addr, hex(result))
+            
+    # input("lets attempt a software trigger! Soft register is a read only reg.. Reads evtNumber: ")
+    # result = board.peeknow( IRS_SOFT_TRIG) # note this also sets read_data_enable to FSM..
+    # print("value read from the software trig: %s" % hex(result))
+    # result = board.pokenow( IRS_SOFT_TRIG , 0xf ) # note this also sets read_data_enable to FSM..
 
     # input("lets attempt a software trig with a peek value.. ")
     # board.peek( IRS_SOFT_TRIG ) # note this also sets read_data_enable to FSM..
     # board.poke( IRS_SOFT_TRIG , 0xf )
     # input("press enter to commenct the transact.")
     # board.transact()
-    
-
-    # IRS_OFFSET_JUMP   = 0x0100 << 2 # same thing as multiply by four..
-    # IRS_OFFSET_ADDR   = 0x4000
-
-    # asic = lambda x,y : (IRS_OFFSET_ADDR | y * IRS_OFFSET_JUMP | x)
-
-    # # print("next, or the values....")
-    # # print(hex(IRS_OFFSET_JUMP))
-
-    # asic_dac = lambda x: bin(( IRS_OFFSET_ADDR | x << 2))
-    # hex_asic_dac = lambda x: hex(( IRS_OFFSET_ADDR | x << 2))
-    # asic_dac_dic = {asic_dac(x): 0x0 for x in range(0,64)}
-
-    # for count, x in enumerate(range(0,64)):
-    #     print(count,asic_dac(x),hex_asic_dac(x))
-    # # print(asic_dac_dic)
-
-    # print("next lambda, asic..")
-    # print(hex(asic(1,2)))

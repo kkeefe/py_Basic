@@ -138,10 +138,10 @@ for myboard in boards:
     # # the register write to attempt a software trigger:
     # myboard.pokenow( 0x1028,  0x1 )
     input("Firing once...")
-    myboard.pokenow( 0x1028 , 0x1 )
+    myboard.pokenow( 0x1100 , 0x1 ) # poke the place to designate a scaler count period.
     input("...done.")
 
     print("Press Enter to initiate configuration...") 
     for asicNum in range(0,8):
-        configIrsTrigger(myboard, 0)        
+        configIrsTrigger(myboard, asicNum)        
     print("...done.")
