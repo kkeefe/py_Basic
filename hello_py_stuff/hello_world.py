@@ -32,7 +32,10 @@ Numbers = ["one", "two", "three"]
 # print(Numbers[-1]) #negative numbers will reverse wrap.. in fact this always returns last element in list, otherwise for empty list returns error
 
 # think of indexing the list as accessing that element directly, and you can change its value through assignments..
-# use .appent(element) to add elements to a list..
+# use .append(element) to add elements to a list..
+
+# note a count() function could return the number of times an element appears in a list
+# list.count(element) {returns an int}
 
 # or you can use insert to put it in a particular spot within the list..
 # Numbers.insert(1, "four")
@@ -390,9 +393,73 @@ first_user.get_login_attempts()
 first_user.reset_login_attempts()
 first_user.get_login_attempts()
 
-
 # inheritance! 
 # Child classes inherit all methods and attributes of the parent class..
+
+# make a child class of the restaurant class for ice cream!
+
+class Ice_Cream_Stand(Restaurant):  
+    def __init__(self, name, cuisine_type="Ice Cream", flavors=[]):
+        super().__init__(name,cuisine_type)
+        self.flavors = flavors
+
+    def get_flavors(self):
+        if self.flavors:
+            print(f'flavors are: {self.flavors}')
+        else:
+            print("please input some flavors!")
+
+eddies = Ice_Cream_Stand("eddies")    
+eddies.describe_restaurant()
+eddies.get_flavors()
+
+# create a separate privileges class.
+class Privileges():
+    def __init__(self, attribute=[]):
+        self.attribute = attribute
+    
+    def set_privileges(self):
+        count = int(input("How many privileges do you wish to set for the user?"))
+        while count != 0:
+            privilege = input("please add a privilege: ")
+            self.attribute.append(privilege)
+            count = count - 1
+    
+    def show_privileges(self):
+        print(self.attribute)
+    
+    def check_privilege(self, priv):
+        # quickest and clearest way to check to see if a particular element
+        # is in a list!
+        if priv in self.attribute:
+            print("got it!")
+        else:
+            print("nope!")
+
+
+class Admin(User):
+    
+    def __init__(self, first_name, last_name, password, age):
+        # this method calls all of the initializations of the parent class..
+        super().__init__(first_name, last_name, password, age) 
+        #extension of 9.6 / 9.7 to make a class an attribute..
+        self.privileges = Privileges() 
+    
+    def display_privileges(self):
+        if self.privileges.attribute:
+            print(f'Privileges for {self.first_name} are: {self.privileges.show_privileges()}')
+        else:
+            print("please input some priviledges for user.")
+    
+admin1 = Admin(first_user.first_name, first_user.last_name, first_user.password, first_user.age)
+admin1.display_privileges()
+admin1.privileges.set_privileges()
+admin1.privileges.show_privileges()
+
+# altering exercise 9.9 since it requires to write out all of car / electric car / battery class..
+# instead will create a method to check priviledges inside of Admin class for 'set password'
+check_priv = input("input the privilege you want to check for: ")
+admin1.privileges.check_privilege(check_priv)
 
 # #additional neat things learned on the side:
 # # lets get the operating system..
