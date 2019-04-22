@@ -112,7 +112,7 @@ Numbers = ["one", "two", "three"]
 # for lists, an if condition can test to see if the list is empty, i.e.: if list: <statements> 
 
 #Ch6: Dictionaries-
-# A dictionary is a dynamic object which is a collection of key-value pairs,
+# A dictionary is a dynamic object which is a ex of key-value pairs,
 # initialize:
 # dic = {'key1' : 'green', 'key2' : 'blue'}
 # print(dic)
@@ -388,78 +388,120 @@ rest1.set_num_served(5)
 rest1.inc_num_served()
 rest1.describe_restaurant()
 
-# ex 9.5 - set a user log in attempt method and call it
-first_user.get_login_attempts()
-first_user.reset_login_attempts()
-first_user.get_login_attempts()
+# # ex 9.5 - set a user log in attempt method and call it
+# first_user.get_login_attempts()
+# first_user.reset_login_attempts()
+# first_user.get_login_attempts()
 
-# inheritance! 
-# Child classes inherit all methods and attributes of the parent class..
+# # inheritance! 
+# # Child classes inherit all methods and attributes of the parent class..
 
-# make a child class of the restaurant class for ice cream!
+# # make a child class of the restaurant class for ice cream!
 
-class Ice_Cream_Stand(Restaurant):  
-    def __init__(self, name, cuisine_type="Ice Cream", flavors=[]):
-        super().__init__(name,cuisine_type)
-        self.flavors = flavors
+# class Ice_Cream_Stand(Restaurant):  
+#     def __init__(self, name, cuisine_type="Ice Cream", flavors=[]):
+#         super().__init__(name,cuisine_type)
+#         self.flavors = flavors
 
-    def get_flavors(self):
-        if self.flavors:
-            print(f'flavors are: {self.flavors}')
-        else:
-            print("please input some flavors!")
+#     def get_flavors(self):
+#         if self.flavors:
+#             print(f'flavors are: {self.flavors}')
+#         else:
+#             print("please input some flavors!")
 
-eddies = Ice_Cream_Stand("eddies")    
-eddies.describe_restaurant()
-eddies.get_flavors()
+# eddies = Ice_Cream_Stand("eddies")    
+# eddies.describe_restaurant()
+# eddies.get_flavors()
 
-# create a separate privileges class.
-class Privileges():
-    def __init__(self, attribute=[]):
-        self.attribute = attribute
+# # create a separate privileges class.
+# class Privileges():
+#     def __init__(self, attribute=[]):
+#         self.attribute = attribute
     
-    def set_privileges(self):
-        count = int(input("How many privileges do you wish to set for the user?"))
-        while count != 0:
-            privilege = input("please add a privilege: ")
-            self.attribute.append(privilege)
-            count = count - 1
+#     def set_privileges(self):
+#         count = int(input("How many privileges do you wish to set for the user?"))
+#         while count != 0:
+#             privilege = input("please add a privilege: ")
+#             self.attribute.append(privilege)
+#             count = count - 1
     
-    def show_privileges(self):
-        print(self.attribute)
+#     def show_privileges(self):
+#         print(self.attribute)
     
-    def check_privilege(self, priv):
-        # quickest and clearest way to check to see if a particular element
-        # is in a list!
-        if priv in self.attribute:
-            print("got it!")
-        else:
-            print("nope!")
+#     def check_privilege(self, priv):
+#         # quickest and clearest way to check to see if a particular element
+#         # is in a list!
+#         if priv in self.attribute:
+#             print("got it!")
+#         else:
+#             print("nope!")
 
 
-class Admin(User):
+# class Admin(User):
     
-    def __init__(self, first_name, last_name, password, age):
-        # this method calls all of the initializations of the parent class..
-        super().__init__(first_name, last_name, password, age) 
-        #extension of 9.6 / 9.7 to make a class an attribute..
-        self.privileges = Privileges() 
+#     def __init__(self, first_name, last_name, password, age):
+#         # this method calls all of the initializations of the parent class..
+#         super().__init__(first_name, last_name, password, age) 
+#         #extension of 9.6 / 9.7 to make a class an attribute..
+#         self.privileges = Privileges() 
     
-    def display_privileges(self):
-        if self.privileges.attribute:
-            print(f'Privileges for {self.first_name} are: {self.privileges.show_privileges()}')
-        else:
-            print("please input some priviledges for user.")
+#     def display_privileges(self):
+#         if self.privileges.attribute:
+#             print(f'Privileges for {self.first_name} are: {self.privileges.show_privileges()}')
+#         else:
+#             print("please input some priviledges for user.")
     
-admin1 = Admin(first_user.first_name, first_user.last_name, first_user.password, first_user.age)
-admin1.display_privileges()
-admin1.privileges.set_privileges()
-admin1.privileges.show_privileges()
+# admin1 = Admin(first_user.first_name, first_user.last_name, first_user.password, first_user.age)
+# admin1.display_privileges()
+# admin1.privileges.set_privileges()
+# admin1.privileges.show_privileges()
 
-# altering exercise 9.9 since it requires to write out all of car / electric car / battery class..
-# instead will create a method to check priviledges inside of Admin class for 'set password'
-check_priv = input("input the privilege you want to check for: ")
-admin1.privileges.check_privilege(check_priv)
+# # altering exercise 9.9 since it requires to write out all of car / electric car / battery class..
+# # instead will create a method to check priviledges inside of Admin class for 'set password'
+# check_priv = input("input the privilege you want to check for: ")
+# admin1.privileges.check_privilege(check_priv)
+
+# No examples for the next three exercises since they're exceptionally trivial..
+# Ex 9-10 : store a class in a module and import it. Use that module in your local copy.
+# Particularly do this for the restuarants class..
+
+# Ex 9-11 : Do the same as the above exercise except put the User and Admin classes
+# in a separate module..
+
+# Ex 9-12 : Do the same as above except put user in one module, with admin in a different one
+# run some commands to make sure that everything is imported correctly..
+
+# Importing collections and other modules from the standard library..
+
+# import collections
+
+# # example of importing and using an ordered dictionary..
+# order_dic = collections.OrderedDict()
+# order_dic = {'stuff':'thing'}
+# print(order_dic)
+
+# # Ex 9-13 : Make an ordered dic and ensure that the print output matches the input value
+# count = 3
+# while count != 0:
+#     count = count - 1
+#     value = input("add another thing to the dicionary!")
+#     order_dic[count] = value
+# print(order_dic
+
+# Ex 9-14 : Make a class Die with one attribute called sides, which has a default value of 6.
+# Write a method called roll_die() that prints a random number between 1-# of sides
+import random
+
+class Die():
+
+    def __init__(self, side_num):
+        Die.sides = side_num    
+    
+    def roll_dice(self):
+        print(f'value of the die toss is: {random.randint(1,self.sides)}')
+
+six_side = Die(6)
+six_side.roll_dice()
 
 # #additional neat things learned on the side:
 # # lets get the operating system..
