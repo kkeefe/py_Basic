@@ -1,9 +1,19 @@
-# let's try converting some int inputs to hex values!!
+# stuff to write as a silly test bench of py code to place in other note sections..
 
-val = input("input the value of the register you want to write! ")
 
-print(f'the value you entered is: {val}')
+# use of a map function as applied to a lambda function
 
-hex_val = hex(val)
+# make some function you want
+my_func = lambda x: x ** x
 
-# print(f'this value in hex format is: {hex_val}')
+# lets make a map for this function
+sequence = [1, 2, 3]
+my_map = list(map(my_func, sequence))
+print(my_map)
+
+# filter function, removes items from a list for which func returns false.
+sequence_2 = [1,2,3]
+is_odd = lambda x : ( x % 2 )
+my_filter = list(filter(is_odd, sequence_2))
+print(my_filter)
+
