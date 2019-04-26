@@ -97,7 +97,7 @@ Numbers = ["one", "two", "three"]
 #     elif value == 4:
 #         print("value is: " + str(value))
 #     #note python does not require else statements to conclude if statements..
-#     else: 
+#     else:
 #         print(str(value) + " is not 1")
 
 # # check to see if in a list
@@ -109,7 +109,7 @@ Numbers = ["one", "two", "three"]
 #example of conditional statements in list:
 # <item> in <list> -> return value is boolean
 # may also pay boolean arguments to print() to return True/False string values..
-# for lists, an if condition can test to see if the list is empty, i.e.: if list: <statements> 
+# for lists, an if condition can test to see if the list is empty, i.e.: if list: <statements>
 
 #Ch6: Dictionaries-
 # A dictionary is a dynamic object which is a ex of key-value pairs,
@@ -130,7 +130,7 @@ Numbers = ["one", "two", "three"]
 # # select the keys..  .values() also works well..
 # for key in dic.keys():
 #     print("key is: " + str(key))
-# # # get the keys you want in order 
+# # # get the keys you want in order
 # for key in sorted(dic.keys()):
 #     print("key is: " + str(key))
 
@@ -150,7 +150,7 @@ Numbers = ["one", "two", "three"]
 
 # #while loops - ideal to iterate through lists and dictionaries where modification is required
 # # avoid iterating through lists / dicts with for loops: python no like
-# val = 0; 
+# val = 0;
 # while val < 5:
 #     print(val)
 #     val += 1
@@ -166,7 +166,7 @@ Numbers = ["one", "two", "three"]
 #         active_flag = False
           # could also include a continue line to immediately move to the next iteration of the while loop..
 
-# # while loops with lists and dictionaries - 
+# # while loops with lists and dictionaries -
 # foods = ["pizza", "burritos", "tacos"]
 # foods_i_like = []
 # # go through every element in foods..
@@ -181,13 +181,13 @@ Numbers = ["one", "two", "three"]
 # print("the foods i like are:")
 # print(foods_i_like)
 
-# while "tacos" in foods_i_like:  
+# while "tacos" in foods_i_like:
 #     foods_i_like.remove("tacos")
 # print("the foods i like are:")
 # print(foods_i_like)
 
-#Ch8: Functions - 
-#Syntax -> Def function_name(parameter list) 
+#Ch8: Functions -
+#Syntax -> Def function_name(parameter list)
 #               -> function_things
 #               -> optional specify return type..
 def display_message():
@@ -232,8 +232,8 @@ def make_element(element_name, element_number, element_mass):
 
 #pass a list and a dictionary to a function
 def add_element(element_list, element):
-    """stuff which describes a function, 
-       feel free to put it on multiple lines.. lists and dictionaries passed to functions can 
+    """stuff which describes a function,
+       feel free to put it on multiple lines.. lists and dictionaries passed to functions can
        be modified inside of that function.."""
     if element:
         print("adding element to list!")
@@ -241,7 +241,7 @@ def add_element(element_list, element):
 
 #make a new element list, from a passed dictionary
 def make_element_list():
-    """use user input to create an element list, since this function requires no list to be 
+    """use user input to create an element list, since this function requires no list to be
     passed to it, the function creates and return it's own function, hence 'create_list'"""
     element_list = []
     more_elements = True
@@ -253,18 +253,18 @@ def make_element_list():
             number = input("please input the element number: ")
             mass = input("please input the element mass: ")
             #use a function call inside of another function
-            add_element(element_list, make_element(name, int(number), float(mass))) 
+            add_element(element_list, make_element(name, int(number), float(mass)))
         else:
             print("thanks for your elements! ")
             more_elements=False
-            
+
     return element_list
 
 # call the function and print below:
 # element_list = create_element_list()
 # print(element_list)
 
-#send copies of lists to a function list[:] - known as 'slice notation' 
+#send copies of lists to a function list[:] - known as 'slice notation'
 
 #Functions with arbitrary number of arguments..
 def print_things(*arg1): #this will tell python to make an empty tuple for arg1
@@ -285,7 +285,7 @@ def print_things_d(**arg1):
 dic_1 = {'val1' : 1, 'val2' : 2}
 print_things_d(val1=1,val2=2)
 
-#Ch9: Classes - 
+#Ch9: Classes -
 
 # typical example of defining a class and the initalizer for the class..
 class element():
@@ -303,25 +303,25 @@ ele_A.get_stats()
 
 # since the class chapter is likely the be crucial, it might be worthwile to quickly do every excercise in this chapter..
 
-#Ex: 9.1 - 
+#Ex: 9.1 -
 class Restaurant():
-    
+
     def __init__ (self, name, cuisine_type):
         self.name = name
         self.food_type = cuisine_type
         #9.5
         self.num_served = 0
-    
+
     def describe_restaurant(self):
         print(f'name: {self.name}\nfood type: {self.food_type}\nnum served: {self.num_served}')
-    
+
     def open_restaurant(self):
         print("the place is open!")
-    
+
     def set_num_served(self, num):
         self.num_served = num
         print(f'num serverd is: {self.num_served}')
-    
+
     def inc_num_served(self):
         self.num_served += 1
 
@@ -337,10 +337,10 @@ rest_1.open_restaurant()
 # rest_4 = Restaurant("Shaloha", "Greatness")
 # rest_4.describe_restaurant()
 
-#Ex: 9.3 - make a user class that includes first and last name, as well 
+#Ex: 9.3 - make a user class that includes first and last name, as well
 # as other information that a user might want to include..
 class User():
-    
+
     def __init__(self, first_name, last_name, password, age):
         """basic initializer method.."""
         self.first_name = first_name
@@ -348,19 +348,19 @@ class User():
         self.password = password
         self.age = age
         self.login_attempts = 0
-    
+
     def describe_user(self):
         """print the user attributes line by line.."""
         print(f'first name: {self.first_name}')
         print(f'last name: {self.last_name}')
         print(f'password: {self.password}')
         print(f'age: {self.age}')
-    
+
     def greet_user(self):
         """boring generic greeting"""
         print(f'ni hao, {self.first_name}!')
         self.inc_login_attempts()
-    
+
     def get_login_attempts(self):
         """how many times has this user tried to log in?"""
         print(f'number of login attempts: {self.login_attempts}')
@@ -368,7 +368,7 @@ class User():
     def inc_login_attempts(self):
         """#everytime the user is greeted, they have logged in.."""
         self.login_attempts += 1
-    
+
     def reset_login_attempts(self):
         """reset it to zero.."""
         self.login_attempts = 0
@@ -393,12 +393,12 @@ rest1.describe_restaurant()
 # first_user.reset_login_attempts()
 # first_user.get_login_attempts()
 
-# # inheritance! 
+# # inheritance!
 # # Child classes inherit all methods and attributes of the parent class..
 
 # # make a child class of the restaurant class for ice cream!
 
-# class Ice_Cream_Stand(Restaurant):  
+# class Ice_Cream_Stand(Restaurant):
 #     def __init__(self, name, cuisine_type="Ice Cream", flavors=[]):
 #         super().__init__(name,cuisine_type)
 #         self.flavors = flavors
@@ -409,7 +409,7 @@ rest1.describe_restaurant()
 #         else:
 #             print("please input some flavors!")
 
-# eddies = Ice_Cream_Stand("eddies")    
+# eddies = Ice_Cream_Stand("eddies")
 # eddies.describe_restaurant()
 # eddies.get_flavors()
 
@@ -417,17 +417,17 @@ rest1.describe_restaurant()
 # class Privileges():
 #     def __init__(self, attribute=[]):
 #         self.attribute = attribute
-    
+
 #     def set_privileges(self):
 #         count = int(input("How many privileges do you wish to set for the user?"))
 #         while count != 0:
 #             privilege = input("please add a privilege: ")
 #             self.attribute.append(privilege)
 #             count = count - 1
-    
+
 #     def show_privileges(self):
 #         print(self.attribute)
-    
+
 #     def check_privilege(self, priv):
 #         # quickest and clearest way to check to see if a particular element
 #         # is in a list!
@@ -438,19 +438,19 @@ rest1.describe_restaurant()
 
 
 # class Admin(User):
-    
+
 #     def __init__(self, first_name, last_name, password, age):
 #         # this method calls all of the initializations of the parent class..
-#         super().__init__(first_name, last_name, password, age) 
+#         super().__init__(first_name, last_name, password, age)
 #         #extension of 9.6 / 9.7 to make a class an attribute..
-#         self.privileges = Privileges() 
-    
+#         self.privileges = Privileges()
+
 #     def display_privileges(self):
 #         if self.privileges.attribute:
 #             print(f'Privileges for {self.first_name} are: {self.privileges.show_privileges()}')
 #         else:
 #             print("please input some priviledges for user.")
-    
+
 # admin1 = Admin(first_user.first_name, first_user.last_name, first_user.password, first_user.age)
 # admin1.display_privileges()
 # admin1.privileges.set_privileges()
@@ -495,13 +495,86 @@ import random
 class Die():
 
     def __init__(self, side_num):
-        Die.sides = side_num    
-    
+        Die.sides = side_num
+
     def roll_dice(self):
         print(f'value of the die toss is: {random.randint(1,self.sides)}')
 
 six_side = Die(6)
 six_side.roll_dice()
+
+# chapter 15 stuff - data visualization
+
+# get some mat plot lib stuff
+import matplotlib.pyplot as plt
+
+# do some basic plotting of a generic list
+squares = [1,2,3]
+squares_val = [1,4,9]
+
+plt.title("title goes here", fontsize=24)
+plt.xlabel("x axis label here")
+plt.ylabel("y label here, i guess")
+plt.plot(squares, linewidth=5)
+plt.show()
+
+# # give x and y vals if you wish..
+# plt.axis([0,10,0,10])
+# plt.plot(squares, squares_val, linewidth=3)
+# plt.show()
+
+# scatter plots and the random module
+
+from random import choice
+class RandomWalk():
+    """
+    all stuff below stolen directly from textbook..
+    """
+    def __init__(self,num_points=5000):
+        self.num_points = num_points
+
+        self.x_values = [0]
+        self.y_values = [0]
+
+    def fill_walk(self):
+        while len(self.x_values) < self.num_points :
+
+            # set up the function which defines changing x / y distances.
+            x_direction = choice([-1,1])
+            x_distance  = choice([0,1,2,3,4])
+            x_step      = x_direction * x_distance
+
+            y_direction = choice([-1,1])
+            y_distance  = choice([0,1,2,3,4])
+            y_step      = y_direction * y_distance
+
+            # dont stop if both zero
+            if x_step == 0 and y_step == 0:
+                continue
+
+            # find the last values and increment from there.
+            next_x = self.x_values[-1] + x_step
+            next_y = self.y_values[-1] + y_step
+
+            # add those values into the list.
+            self.x_values.append(next_x)
+            self.y_values.append(next_y)
+
+# make some random walks happen and show it!
+rw = RandomWalk()
+rw.fill_walk()
+plt.scatter(rw.x_values, rw.y_values, s=15)
+plt.show()
+
+# want to color it as you go along?
+point_numbers = list(range(rw.num_points))
+plt.scatter(rw.x_values, rw.y_values, c=point_numbers, cmap=plt.cm.Blues, edgecolor='none', s=15)
+
+# get the start and end values specially..
+plt.scatter(0, 0, c='green', edgecolor='none', s=100)
+plt.scatter(rw.x_values[-1], rw.y_values[-1], c='red', edgecolor='none', s=100)
+plt.show()
+
 
 # #additional neat things learned on the side:
 # # lets get the operating system..
