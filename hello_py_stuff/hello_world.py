@@ -190,21 +190,21 @@ Numbers = ["one", "two", "three"]
 #Syntax -> Def function_name(parameter list) 
 #               -> function_things
 #               -> optional specify return type..
-def display_message():
-    print("hi there..")
-#remember the function call!!!
-display_message()
+# def display_message():
+#     print("hi there..")
+# #remember the function call!!!
+# display_message()
 
 #positional arguments vs. Keyword arguments:
 # -> positional arguments are simply the normal ordering of arguments..
 # -> keyword arguement: name, value pair passed to a function
 # -> Default arguments
-def function_stuff(arg1, arg2="ni hao"): #nondefault arguments must go first..
-    print(arg1)
-    print(arg2)
-function_stuff("hello", "hi") #positional arguments
-function_stuff(arg1="hi", arg2="hello") #keyword arguements
-function_stuff("great") #default argument for arg2..
+# def function_stuff(arg1, arg2="ni hao"): #nondefault arguments must go first..
+#     print(arg1)
+#     print(arg2)
+# function_stuff("hello", "hi") #positional arguments
+# function_stuff(arg1="hi", arg2="hello") #keyword arguements
+# function_stuff("great") #default argument for arg2..
 
 #may specify return values from a function. you can use function for assignments..
 #arg2 / 3 are optional parameters..
@@ -223,12 +223,12 @@ def lets_do_math(arg1, arg2=0, arg3="add"):
 add = lets_do_math(2,1,"add") #equivalent to lets_do_math(2,1)
 subtract = lets_do_math(2,1,"subtract")
 
-#using functions and returning disctionary types
-def make_element(element_name, element_number, element_mass):
-    """create an element dictionary"""
-    element = {'name':element_name, 'number':element_number, 'mass':element_mass}
-    #since no element_list is passed to here, use this function to create / return one.
-    return element
+# # rusing functions and returning disctionary types
+# def make_element(element_name, element_number, element_mass):
+#     """create an element dictionary"""
+#     element = {'name':element_name, 'number':element_number, 'mass':element_mass}
+#     #since no element_list is passed to here, use this function to create / return one.
+#     return element
 
 #pass a list and a dictionary to a function
 def add_element(element_list, element):
@@ -286,7 +286,6 @@ dic_1 = {'val1' : 1, 'val2' : 2}
 print_things_d(val1=1,val2=2)
 
 #Ch9: Classes - 
-
 # typical example of defining a class and the initalizer for the class..
 class element():
     def __init__ (self, name, number, mass):
@@ -298,18 +297,18 @@ class element():
         print(f'name: {self.name}\nnumber: {self.number}\nmass: {self.mass}')
 # lets create an example of this basic class
 ele_A = element('hydrogen', 1, 1.0079)
+
 # and use a member function!
 ele_A.get_stats()
 
 # since the class chapter is likely the be crucial, it might be worthwile to quickly do every excercise in this chapter..
-
 #Ex: 9.1 - 
 class Restaurant():
     
-    def __init__ (self, name, cuisine_type):
+    def __init__ (self, name, food_type):
         self.name = name
-        self.food_type = cuisine_type
-        #9.5
+        self.food_type = food_type
+        #9.5 
         self.num_served = 0
     
     def describe_restaurant(self):
@@ -325,9 +324,9 @@ class Restaurant():
     def inc_num_served(self):
         self.num_served += 1
 
-rest_1 = Restaurant("Mickie-D's", "Fast Food")
-rest_1.describe_restaurant()
-rest_1.open_restaurant()
+# rest_1 = Restaurant("Mickie-D's", "Fast Food")
+# rest_1.describe_restaurant()
+# rest_1.open_restaurant()
 
 # #Ex: 9.2 - Create three instances from the class above..
 # rest_2 = Restaurant("Arbies", "Fast Food")
@@ -372,45 +371,51 @@ class User():
     def reset_login_attempts(self):
         """reset it to zero.."""
         self.login_attempts = 0
+        
+# first_user = User('kevin', 'keefe', 'blank', 28)
+# first_user.greet_user()
+# first_user.describe_user()
 
+# # annoyingly you can also add random things to your class..
+# first_user.stuff = "hi there"
+# print(first_user.stuff)
 
-first_user = User('kevin', 'keefe', 'blank', 28)
-first_user.greet_user()
-first_user.describe_user()
+# # ex 9.4
+# rest1 = Restaurant("place1", "bad_food")
+# rest1.set_num_served(5)
+# rest1.inc_num_served()
+# rest1.describe_restaurant()
 
-# annoyingly you can also add random things to your class..
-first_user.stuff = "hi there"
-print(first_user.stuff)
+# # ex 9.5 - set a user log in attempt method and call it
+# first_user.get_login_attempts()
+# first_user.reset_login_attempts()
+# first_user.get_login_attempts()
 
-# ex 9.4
-rest1 = Restaurant("place1", "bad_food")
-rest1.set_num_served(5)
-rest1.inc_num_served()
-rest1.describe_restaurant()
+# # inheritance! 
+# # Child classes inherit all methods and attributes of the parent class..
 
-# ex 9.5 - set a user log in attempt method and call it
-first_user.get_login_attempts()
-first_user.reset_login_attempts()
-first_user.get_login_attempts()
-
-# inheritance! 
-# Child classes inherit all methods and attributes of the parent class..
-
-# make a child class of the restaurant class for ice cream!
-
+# # make a child class of the restaurant class for ice cream!
 class Ice_Cream_Stand(Restaurant):  
-    def __init__(self, name, cuisine_type="Ice Cream", flavors=[]):
-        super().__init__(name,cuisine_type)
+    def __init__(self, name, food_type="Ice Cream", flavors=[]):
+        super().__init__(name,food_type)
         self.flavors = flavors
 
+    # code below takes the full restaurant value and initializes a ice_Cream_Stand from it
+    # def __init__(self, Restaurant, flavors=[]):
+    #     super().__init__(name=Restaurant.name , food_type=Restaurant.food_type)
+    #     self.flavors = flavors
+        
     def get_flavors(self):
         if self.flavors:
             print(f'flavors are: {self.flavors}')
         else:
-            print("please input some flavors!")
+            self.flavors = input("please input from flavors: ")
 
-eddies = Ice_Cream_Stand("eddies")    
+eddies = Ice_Cream_Stand()
+rest2 = Restaurant(name="this_place",food_type="bad_food")
+# eddies = Ice_Cream_Stand(rest2) 
 eddies.describe_restaurant()
+eddies.get_flavors()
 eddies.get_flavors()
 
 # create a separate privileges class.
@@ -436,7 +441,6 @@ class Privileges():
         else:
             print("nope!")
 
-
 class Admin(User):
     
     def __init__(self, first_name, last_name, password, age):
@@ -444,7 +448,7 @@ class Admin(User):
         super().__init__(first_name, last_name, password, age) 
         #extension of 9.6 / 9.7 to make a class an attribute..
         self.privileges = Privileges() 
-    
+
     def display_privileges(self):
         if self.privileges.attribute:
             print(f'Privileges for {self.first_name} are: {self.privileges.show_privileges()}')
@@ -456,10 +460,71 @@ admin1.display_privileges()
 admin1.privileges.set_privileges()
 admin1.privileges.show_privileges()
 
-# altering exercise 9.9 since it requires to write out all of car / electric car / battery class..
-# instead will create a method to check priviledges inside of Admin class for 'set password'
-check_priv = input("input the privilege you want to check for: ")
-admin1.privileges.check_privilege(check_priv)
+# # altering exercise 9.9 since it requires to write out all of car / electric car / battery class..
+# # instead will create a method to check priviledges inside of Admin class for 'set password'
+# check_priv = input("input the privilege you want to check for: ")
+# admin1.privileges.check_privilege(check_priv)
+
+
+# pygal and data visualization with python
+# from random import randint
+# class Die():
+#     """ make a die with sides """
+#     def __init__(self, num_sides=6):
+#         self.num_sides = num_sides
+
+#     def roll(self):
+#         """ use the die"""
+#         return randint(1, self.num_sides)
+
+# # make a die, a place to store the results, then fill it..
+# D6 = Die(6)
+# results = []
+# for roll in range(100000):
+#     result = D6.roll()
+#     results.append(result)
+
+# frequencies = []
+# for value in range(1, D6.num_sides+1):
+#     frequency = results.count(value)
+#     frequencies.append(frequency)
+# # print(frequencies)
+
+# # lets visualize the data we just created..
+# import pygal as pg
+# hist = pg.Bar() 
+
+# hist.title = " title "
+# hist.x_labels = ['1','2','3','4','5','6']
+# hist.x_title = " x title "
+# hist.y_title = " y title "
+
+# hist.add('D6',frequencies)
+# hist.render_to_file('die.visual.svg')
+
+# # it's a lot more fun to do with two dice! 
+# D8_1 = Die(8)
+# D8_2 = Die(8)
+# sum_reults = []
+# for i in range(100000):
+#     sum_res = D8_1.roll() + D8_2.roll()
+#     sum_reults.append(sum_res)
+
+# frequencies2 = []
+# for value in range(1, 17):
+#     frequency = sum_reults.count(value)
+#     frequencies2.append(frequency)
+
+# hist2 = pg.Bar()
+
+# hist2.title = " sum "
+# hist2.x_labels = ['2','3','4','5','6','7','8','9','10','11','12','13','14','15','16']
+# hist2.x_title = " x title "
+# hist2.y_title = " y title "
+
+# hist2.add('D8 + D8',frequencies2)
+# hist2.render_to_file('diesum.visual.svg')
+
 
 # #additional neat things learned on the side:
 # # lets get the operating system..
