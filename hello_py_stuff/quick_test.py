@@ -82,6 +82,17 @@ for pixel in total_pixel_data:
             f.write("%s\t%s \t %s" % (pixel.number , key , value) )
     f.close()
 
+# sexy things suggested on stack exchange:
+
+# for key in mydictionary:
+#    print "key: %s , value: %s" % (key, mydictionary[key])
+
+# keys = mydictionary.keys()
+# keys.sort()
+
+# for each in keys:
+#     print "%s: %s" % (each, mydictionary.get(each))
+
 # # lets do some file things
 # for j in range(0,10):
 #     f = open("test_dir/test_file%s.txt" % j,"w")
