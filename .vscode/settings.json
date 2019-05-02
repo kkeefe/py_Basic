@@ -1,7 +1,7 @@
 {
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.pythonPath": "/Library/Frameworks/Python.framework/Versions/3.7/bin/python3",
+    "python.pythonPath": "C:\\Users\\keefe\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
     "python.envFile": "${workspaceFolder}/.env",
     "python.linting.pep8Enabled": false,
     "python.linting.banditEnabled": false
