@@ -1,6 +1,5 @@
 # stuff to write as a silly test bench of py code to place in other note sections..
 
-
 # use of a map function as applied to a lambda function
 
 # make some function you want
