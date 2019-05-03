@@ -3,6 +3,7 @@
 *.pyc
 *.dSYM
 .ipch*
+*.svg
 *~
 .DS_Store/
 
