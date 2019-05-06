@@ -582,7 +582,9 @@ plt.show()
 # # lets get the operating system..
 # import os
 # import sys
-# # this allows access to any of the operating system values.. environ_values is set to be a dictionary, with key : value types..
+# # this allows access to any of the operating system
+# # values.. environ_values is set to be a dictionary, with key : value types
+# #..
 # environ_values = os.environ
 # print(environ_values)
 # print("\n")
