@@ -495,14 +495,17 @@ import random
 
 class Die():
 
-    def __init__(self, side_num):
+    def __init__(self, side_num=6):
         Die.sides = side_num
 
-    def roll_dice(self):
-        print(f'value of the die toss is: {random.randint(1,self.sides)}')
+    def roll_dice(self, display=False):
+        val = random.randint(1,self.sides)
+        if display:
+            print('value of the die toss is: %s' % val)
+        return val
 
 six_side = Die(6)
-six_side.roll_dice()
+six_side.roll_dice(display=True)
 
 # chapter 15 stuff - data visualization
 
@@ -577,6 +580,29 @@ plt.scatter(0, 0, c='green', edgecolor='none', s=100)
 plt.scatter(rw.x_values[-1], rw.y_values[-1], c='red', edgecolor='none', s=100)
 plt.show()
 
+# histograms in python
+import pygal
+hist = pygal.Bar()
+
+hist.title = "hist title"
+hist.x_labels = ['1','2','3','4','5','6']
+hist.x_title  = "Result"
+hist.y_title  = "Frequency of Result"
+
+# lets get some data
+results =[]
+for roll_num in range(1000):
+    result = six_side.roll_dice()
+    results.append(result)
+
+# lets get some frequencies
+frequencies = []
+for val_i in range(1, six_side.sides+1):
+    frequency = results.count(val_i)
+    frequencies.append(frequency)
+
+hist.add('D6', frequencies)
+hist.render_to_file('die_visual.svg')
 
 # #additional neat things learned on the side:
 # # lets get the operating system..
