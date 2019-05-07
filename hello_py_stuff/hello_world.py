@@ -516,11 +516,11 @@ import matplotlib.pyplot as plt
 squares = [1,2,3]
 squares_val = [1,4,9]
 
-plt.title("title goes here", fontsize=24)
-plt.xlabel("x axis label here")
-plt.ylabel("y label here, i guess")
-plt.plot(squares, linewidth=5)
-plt.show()
+# plt.title("title goes here", fontsize=24)
+# plt.xlabel("x axis label here")
+# plt.ylabel("y label here, i guess")
+# plt.plot(squares, linewidth=5)
+# plt.show()
 
 # # give x and y vals if you wish..
 # plt.axis([0,10,0,10])
@@ -568,7 +568,7 @@ class RandomWalk():
 rw = RandomWalk()
 rw.fill_walk()
 plt.scatter(rw.x_values, rw.y_values, s=15)
-plt.show()
+# plt.show()
 
 # want to color it as you go along?
 point_numbers = list(range(rw.num_points))
@@ -578,7 +578,7 @@ plt.scatter(rw.x_values, rw.y_values, c=point_numbers, cmap=plt.cm.Blues, edgeco
 # get the start and end values specially..
 plt.scatter(0, 0, c='green', edgecolor='none', s=100)
 plt.scatter(rw.x_values[-1], rw.y_values[-1], c='red', edgecolor='none', s=100)
-plt.show()
+# plt.show()
 
 # histograms in python
 import pygal
@@ -603,6 +603,45 @@ for val_i in range(1, six_side.sides+1):
 
 hist.add('D6', frequencies)
 hist.render_to_file('die_visual.svg')
+
+# the CSV file format - comma separated values
+import csv
+from datetime import datetime
+# get the first line of a csv file..
+filename = 'sitka_weather_07-2014.csv'
+
+# notice that the file is open only as long as the scope of the with statement..
+with open(filename) as f:
+    reader = csv.reader(f)
+    header_row = next(reader)
+    # print(header_row)
+
+    # get the index of each of the header values
+    for index, value in enumerate(header_row):
+        print(index, value)
+
+    # easily get the value at every row[1]..
+    highs, dates= [] , []
+    for row in reader:
+        # make the strings ints
+        highs.append(int(row[1]))
+
+        # use a datetime method to get the date in a useful format
+        current_date = datetime.strptime(row[0] , "%Y-%m-%d")
+        dates.append(current_date)
+
+    print(highs)
+    print(dates)
+
+fig = plt.figure(dpi=128, figsize=(10,6))
+plt.plot(dates, highs, c='red')
+
+plt.title("Daily high temps" , fontsize=24)
+plt.xlabel('',fontsize=16)
+fig.autofmt_xdate()
+plt.ylabel("Temp(F)", fontsize=16)
+plt.tick_params(axis='both', which='major', labelsize=16)
+plt.show()
 
 # #additional neat things learned on the side:
 # # lets get the operating system..
