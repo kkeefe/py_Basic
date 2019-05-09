@@ -25,7 +25,7 @@
 # you may type 'import this' -no quotes to print The Zen of Python (?)
 
 #Chapter 3... Lists..
-Numbers = ["one", "two", "three"]
+# Numbers = ["one", "two", "three"]
 # print(Numbers)
 # # notes: Numbers can be element accessed like so:
 # print(Numbers[0])
@@ -206,59 +206,59 @@ Numbers = ["one", "two", "three"]
 # function_stuff(arg1="hi", arg2="hello") #keyword arguements
 # function_stuff("great") #default argument for arg2..
 
-#may specify return values from a function. you can use function for assignments..
-#arg2 / 3 are optional parameters..
-def lets_do_math(arg1, arg2=0, arg3="add"):
-    val = arg1 + arg2
-    if arg3 == "add":
-        print("adding: ")
-        return val + arg1
-    elif arg3 == "subtract":
-        print("subtracting: ")
-        return val - arg1
-    else:
-        print("this form of math is unknown!!")
-        return 0
+# #may specify return values from a function. you can use function for assignments..
+# #arg2 / 3 are optional parameters..
+# def lets_do_math(arg1, arg2=0, arg3="add"):
+#     val = arg1 + arg2
+#     if arg3 == "add":
+#         print("adding: ")
+#         return val + arg1
+#     elif arg3 == "subtract":
+#         print("subtracting: ")
+#         return val - arg1
+#     else:
+#         print("this form of math is unknown!!")
+#         return 0
 
-add = lets_do_math(2,1,"add") #equivalent to lets_do_math(2,1)
-subtract = lets_do_math(2,1,"subtract")
+# add = lets_do_math(2,1,"add") #equivalent to lets_do_math(2,1)
+# subtract = lets_do_math(2,1,"subtract")
 
-# # rusing functions and returning disctionary types
-def make_element(element_name, element_number, element_mass):
-    """create an element dictionary"""
-    element = {'name':element_name, 'number':element_number, 'mass':element_mass}
-    #since no element_list is passed to here, use this function to create / return one.
-    return element
+# # # rusing functions and returning disctionary types
+# def make_element(element_name, element_number, element_mass):
+#     """create an element dictionary"""
+#     element = {'name':element_name, 'number':element_number, 'mass':element_mass}
+#     #since no element_list is passed to here, use this function to create / return one.
+#     return element
 
-#pass a list and a dictionary to a function
-def add_element(element_list, element):
-    """stuff which describes a function,
-       feel free to put it on multiple lines.. lists and dictionaries passed to functions can
-       be modified inside of that function.."""
-    if element:
-        print("adding element to list!")
-        element_list.append(element)
+# #pass a list and a dictionary to a function
+# def add_element(element_list, element):
+#     """stuff which describes a function,
+#        feel free to put it on multiple lines.. lists and dictionaries passed to functions can
+#        be modified inside of that function.."""
+#     if element:
+#         print("adding element to list!")
+#         element_list.append(element)
 
 #make a new element list, from a passed dictionary
-def make_element_list():
-    """use user input to create an element list, since this function requires no list to be
-    passed to it, the function creates and return it's own function, hence 'create_list'"""
-    element_list = []
-    more_elements = True
+# def make_element_list():
+#     """use user input to create an element list, since this function requires no list to be
+#     passed to it, the function creates and return it's own function, hence 'create_list'"""
+#     element_list = []
+#     more_elements = True
 
-    while more_elements:
-        usr_response = input("do you have more elements to add? (yes to add) ")
-        if usr_response=="yes":
-            name = input("please input the element name: ")
-            number = input("please input the element number: ")
-            mass = input("please input the element mass: ")
-            #use a function call inside of another function
-            add_element(element_list, make_element(name, int(number), float(mass)))
-        else:
-            print("thanks for your elements! ")
-            more_elements=False
+#     while more_elements:
+#         usr_response = input("do you have more elements to add? (yes to add) ")
+#         if usr_response=="yes":
+#             name = input("please input the element name: ")
+#             number = input("please input the element number: ")
+#             mass = input("please input the element mass: ")
+#             #use a function call inside of another function
+#             add_element(element_list, make_element(name, int(number), float(mass)))
+#         else:
+#             print("thanks for your elements! ")
+#             more_elements=False
 
-    return element_list
+#     return element_list
 
 # call the function and print below:
 # element_list = create_element_list()
@@ -267,64 +267,64 @@ def make_element_list():
 #send copies of lists to a function list[:] - known as 'slice notation'
 
 #Functions with arbitrary number of arguments..
-def print_things(*arg1): #this will tell python to make an empty tuple for arg1
-    """tuples are like lists, but immutable and hence don't like modified"""
-    print(arg1)
-    for val1 in arg1:
-        print("- " + val1)
-print_things("things1", "things2")
+# def print_things(*arg1): #this will tell python to make an empty tuple for arg1
+#     """tuples are like lists, but immutable and hence don't like modified"""
+#     print(arg1)
+#     for val1 in arg1:
+#         print("- " + val1)
+# print_things("things1", "things2")
 
-#you can also have an arbirarily long dictionary passed to a function:
-def print_things_d(**arg1):
-    """dictionary types have key values, so you want to make sure you capture them all"""
-    thing_d = {}
-    for key, value in arg1.items():
-        thing_d[key] = value
-    #things the dictionary you just passed.
-    print(thing_d)
-dic_1 = {'val1' : 1, 'val2' : 2}
-print_things_d(val1=1,val2=2)
+# #you can also have an arbirarily long dictionary passed to a function:
+# def print_things_d(**arg1):
+#     """dictionary types have key values, so you want to make sure you capture them all"""
+#     thing_d = {}
+#     for key, value in arg1.items():
+#         thing_d[key] = value
+#     #things the dictionary you just passed.
+#     print(thing_d)
+# dic_1 = {'val1' : 1, 'val2' : 2}
+# print_things_d(val1=1,val2=2)
 
 #Ch9: Classes -
 
 # typical example of defining a class and the initalizer for the class..
-class element():
-    def __init__ (self, name, number, mass):
-        self.name = name
-        self.number = number
-        self.mass = mass
-    # lets get some functions
-    def get_stats(self):
-        print(f'name: {self.name}\nnumber: {self.number}\nmass: {self.mass}')
-# lets create an example of this basic class
-ele_A = element('hydrogen', 1, 1.0079)
+# class element():
+#     def __init__ (self, name, number, mass):
+#         self.name = name
+#         self.number = number
+#         self.mass = mass
+#     # lets get some functions
+#     def get_stats(self):
+#         print(f'name: {self.name}\nnumber: {self.number}\nmass: {self.mass}')
+# # lets create an example of this basic class
+# ele_A = element('hydrogen', 1, 1.0079)
 
-# and use a member function!
-ele_A.get_stats()
+# # and use a member function!
+# ele_A.get_stats()
 
 # since the class chapter is likely the be crucial, it might be worthwile to quickly do every excercise in this chapter..
 
 #Ex: 9.1 -
-class Restaurant():
+# class Restaurant():
 
-    def __init__ (self, name, cuisine_type):
-        self.name = name
-        self.food_type = cuisine_type
-        #9.5 
-        self.num_served = 0
+#     def __init__ (self, name, cuisine_type):
+#         self.name = name
+#         self.food_type = cuisine_type
+#         #9.5 
+#         self.num_served = 0
 
-    def describe_restaurant(self):
-        print(f'name: {self.name}\nfood type: {self.food_type}\nnum served: {self.num_served}')
+#     def describe_restaurant(self):
+#         print(f'name: {self.name}\nfood type: {self.food_type}\nnum served: {self.num_served}')
 
-    def open_restaurant(self):
-        print("the place is open!")
+#     def open_restaurant(self):
+#         print("the place is open!")
 
-    def set_num_served(self, num):
-        self.num_served = num
-        print(f'num serverd is: {self.num_served}')
+#     def set_num_served(self, num):
+#         self.num_served = num
+#         print(f'num serverd is: {self.num_served}')
 
-    def inc_num_served(self):
-        self.num_served += 1
+#     def inc_num_served(self):
+#         self.num_served += 1
 
 # rest_1 = Restaurant("Mickie-D's", "Fast Food")
 # rest_1.describe_restaurant()
@@ -340,54 +340,54 @@ class Restaurant():
 
 #Ex: 9.3 - make a user class that includes first and last name, as well
 # as other information that a user might want to include..
-class User():
+# class User():
 
-    def __init__(self, first_name, last_name, password, age):
-        """basic initializer method.."""
-        self.first_name = first_name
-        self.last_name = last_name
-        self.password = password
-        self.age = age
-        self.login_attempts = 0
+#     def __init__(self, first_name, last_name, password, age):
+#         """basic initializer method.."""
+#         self.first_name = first_name
+#         self.last_name = last_name
+#         self.password = password
+#         self.age = age
+#         self.login_attempts = 0
 
-    def describe_user(self):
-        """print the user attributes line by line.."""
-        print(f'first name: {self.first_name}')
-        print(f'last name: {self.last_name}')
-        print(f'password: {self.password}')
-        print(f'age: {self.age}')
+#     def describe_user(self):
+#         """print the user attributes line by line.."""
+#         print(f'first name: {self.first_name}')
+#         print(f'last name: {self.last_name}')
+#         print(f'password: {self.password}')
+#         print(f'age: {self.age}')
 
-    def greet_user(self):
-        """boring generic greeting"""
-        print(f'ni hao, {self.first_name}!')
-        self.inc_login_attempts()
+#     def greet_user(self):
+#         """boring generic greeting"""
+#         print(f'ni hao, {self.first_name}!')
+#         self.inc_login_attempts()
 
-    def get_login_attempts(self):
-        """how many times has this user tried to log in?"""
-        print(f'number of login attempts: {self.login_attempts}')
+#     def get_login_attempts(self):
+#         """how many times has this user tried to log in?"""
+#         print(f'number of login attempts: {self.login_attempts}')
 
-    def inc_login_attempts(self):
-        """#everytime the user is greeted, they have logged in.."""
-        self.login_attempts += 1
+#     def inc_login_attempts(self):
+#         """#everytime the user is greeted, they have logged in.."""
+#         self.login_attempts += 1
 
-    def reset_login_attempts(self):
-        """reset it to zero.."""
-        self.login_attempts = 0
+#     def reset_login_attempts(self):
+#         """reset it to zero.."""
+#         self.login_attempts = 0
 
 
-first_user = User('kevin', 'keefe', 'blank', 28)
-first_user.greet_user()
-first_user.describe_user()
+# first_user = User('kevin', 'keefe', 'blank', 28)
+# first_user.greet_user()
+# first_user.describe_user()
 
-# annoyingly you can also add random things to your class..
-first_user.stuff = "hi there"
-print(first_user.stuff)
+# # annoyingly you can also add random things to your class..
+# first_user.stuff = "hi there"
+# print(first_user.stuff)
 
-# ex 9.4
-rest1 = Restaurant("place1", "bad_food")
-rest1.set_num_served(5)
-rest1.inc_num_served()
-rest1.describe_restaurant()
+# # ex 9.4
+# rest1 = Restaurant("place1", "bad_food")
+# rest1.set_num_served(5)
+# rest1.inc_num_served()
+# rest1.describe_restaurant()
 
 # # ex 9.5 - set a user log in attempt method and call it
 # first_user.get_login_attempts()
@@ -491,30 +491,30 @@ rest1.describe_restaurant()
 
 # Ex 9-14 : Make a class Die with one attribute called sides, which has a default value of 6.
 # Write a method called roll_die() that prints a random number between 1-# of sides
-import random
+# import random
 
-class Die():
+# class Die():
 
-    def __init__(self, side_num=6):
-        Die.sides = side_num
+#     def __init__(self, side_num=6):
+#         Die.sides = side_num
 
-    def roll_dice(self, display=False):
-        val = random.randint(1,self.sides)
-        if display:
-            print('value of the die toss is: %s' % val)
-        return val
+#     def roll_dice(self, display=False):
+#         val = random.randint(1,self.sides)
+#         if display:
+#             print('value of the die toss is: %s' % val)
+#         return val
 
-six_side = Die(6)
-six_side.roll_dice(display=True)
+# six_side = Die(6)
+# six_side.roll_dice(display=True)
 
-# chapter 15 stuff - data visualization
+# # chapter 15 stuff - data visualization
 
-# get some mat plot lib stuff
-import matplotlib.pyplot as plt
+# # get some mat plot lib stuff
+# import matplotlib.pyplot as plt
 
-# do some basic plotting of a generic list
-squares = [1,2,3]
-squares_val = [1,4,9]
+# # do some basic plotting of a generic list
+# squares = [1,2,3]
+# squares_val = [1,4,9]
 
 # plt.title("title goes here", fontsize=24)
 # plt.xlabel("x axis label here")
@@ -529,119 +529,205 @@ squares_val = [1,4,9]
 
 # scatter plots and the random module
 
-from random import choice
-class RandomWalk():
-    """
-    all stuff below stolen directly from textbook..
-    """
-    def __init__(self,num_points=5000):
-        self.num_points = num_points
+# from random import choice
+# class RandomWalk():
+#     """
+#     all stuff below stolen directly from textbook..
+#     """
+#     def __init__(self,num_points=5000):
+#         self.num_points = num_points
 
-        self.x_values = [0]
-        self.y_values = [0]
+#         self.x_values = [0]
+#         self.y_values = [0]
 
-    def fill_walk(self):
-        while len(self.x_values) < self.num_points :
+#     def fill_walk(self):
+#         while len(self.x_values) < self.num_points :
 
-            # set up the function which defines changing x / y distances.
-            x_direction = choice([-1,1])
-            x_distance  = choice([0,1,2,3,4])
-            x_step      = x_direction * x_distance
+#             # set up the function which defines changing x / y distances.
+#             x_direction = choice([-1,1])
+#             x_distance  = choice([0,1,2,3,4])
+#             x_step      = x_direction * x_distance
 
-            y_direction = choice([-1,1])
-            y_distance  = choice([0,1,2,3,4])
-            y_step      = y_direction * y_distance
+#             y_direction = choice([-1,1])
+#             y_distance  = choice([0,1,2,3,4])
+#             y_step      = y_direction * y_distance
 
-            # dont stop if both zero
-            if x_step == 0 and y_step == 0:
-                continue
+#             # dont stop if both zero
+#             if x_step == 0 and y_step == 0:
+#                 continue
 
-            # find the last values and increment from there.
-            next_x = self.x_values[-1] + x_step
-            next_y = self.y_values[-1] + y_step
+#             # find the last values and increment from there.
+#             next_x = self.x_values[-1] + x_step
+#             next_y = self.y_values[-1] + y_step
 
-            # add those values into the list.
-            self.x_values.append(next_x)
-            self.y_values.append(next_y)
+#             # add those values into the list.
+#             self.x_values.append(next_x)
+#             self.y_values.append(next_y)
 
-# make some random walks happen and show it!
-rw = RandomWalk()
-rw.fill_walk()
-plt.scatter(rw.x_values, rw.y_values, s=15)
-# plt.show()
+# # make some random walks happen and show it!
+# rw = RandomWalk()
+# rw.fill_walk()
+# plt.scatter(rw.x_values, rw.y_values, s=15)
+# # plt.show()
 
-# want to color it as you go along?
-point_numbers = list(range(rw.num_points))
-# ignore error to below.. plotlib does infact have this member..
-plt.scatter(rw.x_values, rw.y_values, c=point_numbers, cmap=plt.cm.Blues, edgecolor='none', s=15)
+# # want to color it as you go along?
+# point_numbers = list(range(rw.num_points))
+# # ignore error to below.. plotlib does infact have this member..
+# plt.scatter(rw.x_values, rw.y_values, c=point_numbers, cmap=plt.cm.Blues, edgecolor='none', s=15)
 
-# get the start and end values specially..
-plt.scatter(0, 0, c='green', edgecolor='none', s=100)
-plt.scatter(rw.x_values[-1], rw.y_values[-1], c='red', edgecolor='none', s=100)
-# plt.show()
+# # get the start and end values specially..
+# plt.scatter(0, 0, c='green', edgecolor='none', s=100)
+# plt.scatter(rw.x_values[-1], rw.y_values[-1], c='red', edgecolor='none', s=100)
+# # plt.show()
 
-# histograms in python
-import pygal
-hist = pygal.Bar()
+# # histograms in python
+# import pygal
+# hist = pygal.Bar()
 
-hist.title = "hist title"
-hist.x_labels = ['1','2','3','4','5','6']
-hist.x_title  = "Result"
-hist.y_title  = "Frequency of Result"
+# hist.title = "hist title"
+# hist.x_labels = ['1','2','3','4','5','6']
+# hist.x_title  = "Result"
+# hist.y_title  = "Frequency of Result"
 
-# lets get some data
-results =[]
-for roll_num in range(1000):
-    result = six_side.roll_dice()
-    results.append(result)
+# # lets get some data
+# results =[]
+# for roll_num in range(1000):
+#     result = six_side.roll_dice()
+#     results.append(result)
 
-# lets get some frequencies
-frequencies = []
-for val_i in range(1, six_side.sides+1):
-    frequency = results.count(val_i)
-    frequencies.append(frequency)
+# # lets get some frequencies
+# frequencies = []
+# for val_i in range(1, six_side.sides+1):
+#     frequency = results.count(val_i)
+#     frequencies.append(frequency)
 
-hist.add('D6', frequencies)
-hist.render_to_file('die_visual.svg')
+# hist.add('D6', frequencies)
+# hist.render_to_file('die_visual.svg')
 
 # the CSV file format - comma separated values
-import csv
-from datetime import datetime
-# get the first line of a csv file..
-filename = 'sitka_weather_07-2014.csv'
+# import csv
+# from datetime import datetime
+# # get the first line of a csv file..
+# filename = 'sitka_weather_07-2014.csv'
+# filename2 = 'sitka_weather_2014.csv'
+# filename3 = 'death_valley_2014.csv'
 
-# notice that the file is open only as long as the scope of the with statement..
-with open(filename) as f:
-    reader = csv.reader(f)
-    header_row = next(reader)
-    # print(header_row)
+# # notice that the file is open only as long as the scope of the with statement..
+# with open(filename) as f:
+#     reader = csv.reader(f)
+#     header_row = next(reader)
+#     # print(header_row)
 
-    # get the index of each of the header values
-    for index, value in enumerate(header_row):
-        print(index, value)
+#     # get the index of each of the header values
+#     for index, value in enumerate(header_row):
+#         print(index, value)
 
-    # easily get the value at every row[1]..
-    highs, dates= [] , []
-    for row in reader:
-        # make the strings ints
-        highs.append(int(row[1]))
+#     # easily get the value at every row[1]..
+#     highs, dates= [] , []
+#     for row in reader:
+#         # make the strings ints
+#         highs.append(int(row[1]))
 
-        # use a datetime method to get the date in a useful format
-        current_date = datetime.strptime(row[0] , "%Y-%m-%d")
-        dates.append(current_date)
+#         # use a datetime method to get the date in a useful format
+#         current_date = datetime.strptime(row[0] , "%Y-%m-%d")
+#         dates.append(current_date)
 
-    print(highs)
-    print(dates)
+#     print(highs)
+#     print(dates)
 
-fig = plt.figure(dpi=128, figsize=(10,6))
-plt.plot(dates, highs, c='red')
+# fig = plt.figure(dpi=128, figsize=(10,6))
+# plt.plot(dates, highs, c='red')
 
-plt.title("Daily high temps" , fontsize=24)
-plt.xlabel('',fontsize=16)
-fig.autofmt_xdate()
-plt.ylabel("Temp(F)", fontsize=16)
-plt.tick_params(axis='both', which='major', labelsize=16)
-plt.show()
+# plt.title("Daily high temps" , fontsize=24)
+# plt.xlabel('',fontsize=16)
+# fig.autofmt_xdate()
+# plt.ylabel("Temp(F)", fontsize=16)
+# plt.tick_params(axis='both', which='major', labelsize=16)
+# plt.show()
+
+# # do a couple data collection bits for this set of data, and compare highs vs lows..
+# with open(filename2) as f:
+#     reader = csv.reader(f)
+#     header_row = next(reader)
+#     # print(header_row)
+
+#     # get the index of each of the header values
+#     for index, value in enumerate(header_row):
+#         print(index, value)
+
+#     # easily get the value at every row[1]..
+#     highs2, dates2, lows2 = [] , [] , []
+#     for row in reader:
+#         # make the strings ints
+#         highs2.append(int(row[1]))
+#         lows2.append(int(row[3]))
+
+#         # use a datetime method to get the date in a useful format
+#         current_date = datetime.strptime(row[0] , "%Y-%m-%d")
+#         dates2.append(current_date)
+
+#     print(highs2)
+#     print(dates2)
+
+# # exception handling with our data! :D
+# with open(filename3) as f:
+#     reader = csv.reader(f)
+#     header_row = next(reader)
+#     # print(header_row)
+
+#     # get the index of each of the header values
+#     for index, value in enumerate(header_row):
+#         print(index, value)
+
+#     # easily get the value at every row[1]..
+#     highs2, dates2, lows2 = [] , [] , []
+#     for row in reader:
+#         try:
+#             current_date = datetime.strptime(row[0] , "%Y-%m-%d")
+#             high = int(row[1])
+#             low  = int(row[3])
+#         except ValueError:
+#             print(current_date, 'missing data')
+#         else:
+#             dates2.append(current_date)
+#             highs2.append(high)
+#             lows2.append(low)
+    
+# fig = plt.figure(dpi=128, figsize=(10,6))
+# # plot two different values on the graph calling each to plot this bad boi.
+# plt.plot(dates2, highs2, c='red')
+# plt.plot(dates2, lows2, c='blue')
+# plt.fill_between(dates2 , highs2 , lows2 , facecolor='blue' , alpha=0.1)
+
+# plt.title("Daily high temps" , fontsize=24)
+# plt.xlabel('',fontsize=16)
+# fig.autofmt_xdate()
+# plt.ylabel("Temp(F)", fontsize=16)
+# plt.tick_params(axis='both', which='major', labelsize=16)
+# plt.show()
+
+# lets do some .json data visualization
+import json
+import pygal
+
+file_name_json = 'population_data.json'
+with open(file_name_json) as f:
+    pop_data = json.load(f)
+
+# print some of the things you want:
+for pop_dict in pop_data:
+    if pop_dict['Year'] == '2010':
+        country_name = pop_dict['Country Name']
+        # make the string value you read in an int.
+        # use the float option to make sure that rounding happens for bad ints..
+        population = int(float(pop_dict['Value']))
+        print(country_name + ': ' + str(population))
+
+from pygal.i18n import COUNTRIES
+
+for country_code in sorted(COUNTRIES.keys()):
+    print(country_code , COUNTRIES[country_code])
+
 
 # #additional neat things learned on the side:
 # # lets get the operating system..
