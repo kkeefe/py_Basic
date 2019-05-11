@@ -1,9 +1,11 @@
 *.h
 *.txt
 *.pyc
+*.csv
 *.dSYM
 .ipch*
 *.svg
+*.json
 *~
 .DS_Store/
 
