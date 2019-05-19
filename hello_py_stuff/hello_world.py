@@ -714,19 +714,139 @@ file_name_json = 'population_data.json'
 with open(file_name_json) as f:
     pop_data = json.load(f)
 
-# print some of the things you want:
+# # print some of the things you want:
+# for pop_dict in pop_data:
+#     if pop_dict['Year'] == '2010':
+#         country_name = pop_dict['Country Name']
+#         # make the string value you read in an int.
+#         # use the float option to make sure that rounding happens for bad ints..
+#         population = int(float(pop_dict['Value']))
+#         print(country_name + ': ' + str(population))
+
+
+###################################################
+from pygal.maps.world import COUNTRIES
+
+# for country_code in sorted(COUNTRIES.keys()):
+#     print(country_code , COUNTRIES[country_code])
+
+def get_country_code(arg1):
+    """ get the country code for an arg1 = country name """
+    for code , name in COUNTRIES.items():
+        if name == arg1:
+            return code
+        elif arg1 == 'Arab World':
+            return 'aw'
+        elif arg1 == 'Congo, Dem. Rep.':
+            return 'drc'
+        elif arg1 == 'Egypt, Arab Rep.':
+            return 'eg'
+        elif arg1 == 'Dominica':
+            return 'dm'
+        elif arg1 == 'Korea, Dem. Rep.':
+            return 'nk'
+        elif arg1 == 'Korea, Rep.':
+            return 'kr'
+        elif arg1 == "Libya":
+            return 'ly'
+        elif arg1 == 'Figi':
+            return 'fj'
+        elif arg1 == 'Venezuela, RB':
+            return 'vz'
+        
+    # Ex 16-5 stuff
+    # print("country name not found: %s" % arg1)
+    return None
+###################################################
+
+# create a world map with color highlighing
+###################################################
+# wm = pygal.maps.world.World()
+# wm.title = 'North, Central, and South America'
+
+# wm.add('North America' , ['ca','mx','us'])
+# wm.add('Central America', ['bz','cr','gt','hn', 'ni','pa','sv'])
+# wm.add('South America' , ['ar','bo','br','cl','co','ec','gf','gy','pe','py','sr','uy','ve'])
+
+# wm.render_to_file('americas.svg')
+###################################################
+
+# what are we to do with all of the data? 
+###################################################
+# let's make a complete pop map
+cc_populations = {}
 for pop_dict in pop_data:
     if pop_dict['Year'] == '2010':
         country_name = pop_dict['Country Name']
         # make the string value you read in an int.
         # use the float option to make sure that rounding happens for bad ints..
         population = int(float(pop_dict['Value']))
-        print(country_name + ': ' + str(population))
+        code = get_country_code(country_name)
+        if code:
+            cc_populations[code] = population
 
-from pygal.i18n import COUNTRIES
 
-for country_code in sorted(COUNTRIES.keys()):
-    print(country_code , COUNTRIES[country_code])
+wm = pygal.maps.world.World()
+wm.title = 'World Population in 2010, by Country'
+# uncomment if you want it all default colorized
+# wm.add('2010', cc_populations)
+# wm.render_to_file('world_populations.svg')
+###################################################
+
+# let's make this stuff pretty and sort the data
+###################################################
+from pygal.style import RotateStyle
+wm_style = RotateStyle('#336699')
+
+cc_pop1 , cc_pop2 , cc_pop3 , cc_pop4 = {} , {} , {} , {}
+for cc, pop in cc_populations.items():
+    if pop >= 1_000_000_000:
+        cc_pop1[cc] = pop
+    elif pop < 1_000_000_000 and pop >= 100_000_000:
+        cc_pop2[cc] = pop
+    elif pop > 1_000_000 and  pop < 100_000_000:
+        cc_pop3[cc] = pop
+    else:
+        cc_pop4[cc] = pop
+
+# wm.add('1b+',cc_pop1)
+# wm.add('1b-100m',cc_pop2)
+# wm.add('100m-1m',cc_pop3)
+# wm.add('<1m',cc_pop4)
+# wm.render_to_file('world_populations_filtered.svg')
+###################################################
+
+# Ex 16-5 find the missing countries! 
+# modified the get function above
+
+# Ex 16-6 add gdp to this bad boi!
+wm2 = pygal.maps.world.World()
+wm2.title = 'World 2012 GDP, by Country'
+worldGdp = 'world_gdp.json'
+
+with open(worldGdp) as f:
+    gdp_data = json.load(f)
+
+country_gdp = {}
+for gdp_dict in gdp_data:
+    if gdp_dict['Year'] == '2012-11-08':
+        cntry_name   = gdp_dict['Country Name']
+        country_code = get_country_code(cntry_name)
+        gdp_made     = int(float(gdp_dict['Value']))
+        country_gdp[country_code] = gdp_made
+
+print(country_gdp)
+wm2.add('Monies',country_gdp)
+wm2.render_to_file('countryies_and_monies.svg')
+
+# Ex 16-7 use your own data
+# kinda trivial.
+
+# Ex 16-8 testing country_codes module:
+
+
+# # find some country codes..
+# print(get_country_code("United Arab Emirates"))
 
 # #additional neat things learned on the side:
 # # lets get the operating system..
