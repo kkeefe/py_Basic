@@ -24,7 +24,7 @@
 
 # you may type 'import this' -no quotes to print The Zen of Python (?)
 
-#Chapter 3... Lists..
+# Chapter 3... Lists..
 # Numbers = ["one", "two", "three"]
 # print(Numbers)
 # # notes: Numbers can be element accessed like so:
@@ -48,7 +48,7 @@
 # similarly, you can remove and return a value from a list in any position with .pop(pos)..
 # or.. remove('value') from the list.. #note that this only removes the first occurance of value within list..
 
-#list misc:
+# #list misc:
 # list.sort() #this will rank order elements of the list through comparison operators..
 # list.sort(reverse=True) #this will rank order in reverse..
 # list.reverse() #reverse the order of the list..
@@ -728,7 +728,6 @@ from pygal.i18n import COUNTRIES
 for country_code in sorted(COUNTRIES.keys()):
     print(country_code , COUNTRIES[country_code])
 
-
 # #additional neat things learned on the side:
 # # lets get the operating system..
 # import os
@@ -743,4 +742,3 @@ for country_code in sorted(COUNTRIES.keys()):
 
 # sys_values = os.sys
 # print(sys_values)
-

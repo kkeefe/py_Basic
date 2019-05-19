@@ -3,58 +3,29 @@
 # silly file to quickly test quick runs of things I make like lambdas or 
 # small functions that i don't necessarily want to push everywhere..
 
-# lets try making some nice user interface stuff
-# but lets make sure we handle stupid user input first..
+header_count = 0
+footer_count  = 0
+frame_count = 0
 
-# errors from user input not giving you the int value you want..
-running = True
-while running:
-    try:
-        user_input = int(input("please enter somethign you want to do.."))
-        running = False
-    except ValueError:
-        print("you did not enter an integer..")
-        running = True
-    # this prevents Ctr-C from exiting the program..
-    except KeyboardInterrupt:
-        print("you tryna leave mate?")
+# use a contents manager - passes off the resource handling..
+with open('blah2.hex','r') as f:
+    file_contents = f.read()
+words = file_contents.split('\n')
+word_count = len(words)
+for count, val in enumerate(words):
+    if val == "daa80085":
+        header_count += 1
+    elif val == "abaaedee":
+        footer_count += 1
+    elif val == '':
+        print("blank and line: %s !" % count)
+    else:
+        frame_count += 0.5
+        for nible in val:
+            hex_str = "0x" + nible
+            int_conv = int(hex_str , 16)
+            bin_rep = bin(int_conv)
+            print(bin_rep)
 
-def myFunc(arg1 , arg2):
-    assert(arg2 != 0), "you don't want to divide by 0"
-    return arg1 / arg2
-
-# assertion errors from functions.
-running = True
-while running:
-    try:
-        user_input = int(input("please enter some integer to divide by.."))
-        myFunc(5,user_input)
-        running = False
-    except AssertionError:
-        running = True
-        print("what the fuck are you thinkin dividing by zero?")
-
-# lets try some standard file I/O errors..
-running = True
-while running:
-    try:
-        file_name = input("please enter the name of the file you want to read from: ")
-        with open(file_name, 'r') as f:
-            print("hey you opened the file.")
-            contents      = f.read()
-        running = False
-    # this exception occurs if the file to read does not exist.
-    except IOError:
-        print("son, that doesn't fuckin exist.\nTry that shit again..")
-        running = True
-
-# x in contents is every single value in the file
-for val, x in enumerate(contents):
-    print(val, x)
-
-# lets see what happens if we test your user input against int values..
-val = 5
-try:
-    print(user_input + val)
-except TypeError:
-    print("you did not enter an int value..")
+print("header count: %s | footer count: % s | frame_count: %s " 
+      % (header_count , footer_count , frame_count))
