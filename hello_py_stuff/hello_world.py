@@ -305,26 +305,26 @@
 # since the class chapter is likely the be crucial, it might be worthwile to quickly do every excercise in this chapter..
 
 #Ex: 9.1 -
-# class Restaurant():
+class Restaurant():
 
-#     def __init__ (self, name, cuisine_type):
-#         self.name = name
-#         self.food_type = cuisine_type
-#         #9.5 
-#         self.num_served = 0
+    def __init__ (self, name, cuisine_type):
+        self.name = name
+        self.food_type = cuisine_type
+        #9.5
+        self.num_served = 0
 
-#     def describe_restaurant(self):
-#         print(f'name: {self.name}\nfood type: {self.food_type}\nnum served: {self.num_served}')
+    def describe_restaurant(self):
+        print(f'name: {self.name}\nfood type: {self.food_type}\nnum served: {self.num_served}')
 
-#     def open_restaurant(self):
-#         print("the place is open!")
+    def open_restaurant(self):
+        print("the place is open!")
 
-#     def set_num_served(self, num):
-#         self.num_served = num
-#         print(f'num serverd is: {self.num_served}')
+    def set_num_served(self, num):
+        self.num_served = num
+        print(f'num serverd is: {self.num_served}')
 
-#     def inc_num_served(self):
-#         self.num_served += 1
+    def inc_num_served(self):
+        self.num_served += 1
 
 # rest_1 = Restaurant("Mickie-D's", "Fast Food")
 # rest_1.describe_restaurant()
@@ -399,20 +399,20 @@
 
 # # make a child class of the restaurant class for ice cream!
 
-# class Ice_Cream_Stand(Restaurant):
-#     def __init__(self, name, cuisine_type="Ice Cream", flavors=[]):
-#         super().__init__(name,cuisine_type)
-#         self.flavors = flavors
+class Ice_Cream_Stand(Restaurant):
+    def __init__(self, name, cuisine_type="Ice Cream", flavors=[]):
+        super().__init__(name,cuisine_type)
+        self.flavors = flavors
 
-#     def get_flavors(self):
-#         if self.flavors:
-#             print(f'flavors are: {self.flavors}')
-#         else:
-#             print("please input some flavors!")
+    def get_flavors(self):
+        if self.flavors:
+            print(f'flavors are: {self.flavors}')
+        else:
+            print("please input some flavors!")
 
-# eddies = Ice_Cream_Stand("eddies")
-# eddies.describe_restaurant()
-# eddies.get_flavors()
+eddies = Ice_Cream_Stand("eddies")
+eddies.describe_restaurant()
+eddies.get_flavors()
 
 # # create a separate privileges class.
 # class Privileges():
@@ -711,8 +711,8 @@ import json
 import pygal
 
 file_name_json = 'population_data.json'
-with open(file_name_json) as f:
-    pop_data = json.load(f)
+# with open(file_name_json) as f:
+    # pop_data = json.load(f)
 
 # # print some of the things you want:
 # for pop_dict in pop_data:
@@ -722,7 +722,6 @@ with open(file_name_json) as f:
 #         # use the float option to make sure that rounding happens for bad ints..
 #         population = int(float(pop_dict['Value']))
 #         print(country_name + ': ' + str(population))
-
 
 ###################################################
 from pygal.maps.world import COUNTRIES
@@ -753,7 +752,7 @@ def get_country_code(arg1):
             return 'fj'
         elif arg1 == 'Venezuela, RB':
             return 'vz'
-        
+
     # Ex 16-5 stuff
     # print("country name not found: %s" % arg1)
     return None
