@@ -15,4 +15,3 @@ sequence_2 = [1,2,3]
 is_odd = lambda x : ( x % 2 )
 my_filter = list(filter(is_odd, sequence_2))
 print(my_filter)
-

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 # silly file to quickly test quick runs of things I make like lambdas or
 # small functions that i don't necessarily want to push everywhere..
@@ -45,76 +45,174 @@
       # % (header_count , footer_count , frame_count))
 # Ex 16-6 add gdp to this bad boi!
 
-# # lets make a file to write and store data stuff with from a python script
-# import json
-# pixelData = 'pixelData.json'
-# with open(pixelData) as f:
-    # allPixelData = json.load(f)
+# lets make a file to write and store data stuff with from a python script
+import json
+
+# make the pixel maps from the combined json files..
+fastPixelMap = "fast_pixelData.json"
+fastMap = {}
+with open(fastPixelMap, "r") as f:
+    allmap = json.load(f)
+    fastMap = allmap['allPixelMappings']
+
+slowPixelMap = "slow_pixelData.json"
+slowMap = {}
+with open(slowPixelMap, "r") as f:
+    allmap = json.load(f)
+    slowMap = allmap['allPixelMappings']
+
+allPixelMappings = {}
+allPixelMappings['slowoutputCard'] = slowMap
+allPixelMappings['fastoutputCard'] = fastMap
+
+allPixelMappingName = "allPixelMapping2.json"
+with open(allPixelMappingName, "w+") as f:
+    json.dump(allPixelMappings, f, indent=2)
 
 # savePixelData = 'savePixelData.txt'
 # with open(savePixelData , "w") as f1:
-    # f1.write('{0}\t{1}\n'.format('pixelNum ', 'readNum'))
-    # for pixelMap in allPixelData["allPixelMappings"]:
-        # pixelNum = pixelMap['pixelNum']
-        # readNum  = pixelMap['readNum']
-        # print(pixelNum , readNum)
-        # f1.write('{0}\t{1}\n'.format(pixelNum , readNum))
-
-# make a class to store all of the asic attributes
-class AsicSettings():
-    def __init__(self):
-        # asic specific stuff
-        self.vbias  = 0
-        self.vbias2 = 0
-        self.itbias = 0
-        self.tbbias = 0
-        self.digreg = 0
-        # channel specific stuff
-        self.ChannelSettings()
+#     f1.write('{0}\t{1}\n'.format('pixelNum ', 'readNum'))
+#     for pixelMap in allPixelData["allPixelMappings"]:
+#         pixelNum = pixelMap['pixelNum']
+#         readNum  = pixelMap['readNum']
+#         print(pixelNum , readNum)
+#         f1.write('{0}\t{1}\n'.format(pixelNum , readNum))
 
 class ChannelSettings():
-    def __init__(self, channel=None):
+    def __init__(self,asicNum, chNum,wbias,vofs1,vofs2,thresh_offset):
         # physical location
         # set of channels
-        self.wbias = 0
-        self.vofs1 = 0
-        self.vofs2 = 0
-        self.thresh_offset = 0
+        asic = lambda x : (IRS_OFFSET_ADDR | asicNum * IRS_OFFSET_JUMP | x )
+        chan = lambda x : (IRS_CHANNEL_JUMP * chNum | x)
+
+        self.wbias         = asic(chan(IRS_WBIAS_OFFSET))  , wbias
+        self.vofs1         = asic(chan(IRS_VOFS1_OFFSET))  , vofs1
+        self.vofs2         = asic(chan(IRS_VOFS2_OFFSET))  , vofs2
+        self.thresh_offset = asic(chan(IRS_THRESH_OFFSET)) , thresh_offset
 
 class Asic():
-    def __init__(self, row, col, num, AsicSettings, schan=[],):
+    def __init__(self, asicNum, vbias , vbias2 , itbias , tbbias , digreg):
         # physical location
-        self.row = 0
-        self.col = 0
-        self.num = 0
-        # set of channels
-        self.chan = [0,1,2,3,4,5,6,7]
-        self.AsicSettings()
+        asic = lambda x : (IRS_OFFSET_ADDR | asicNum * IRS_OFFSET_JUMP | x )
 
+        # asic values
+        self.asicNum = asicNum
+        self.vbias   = asic(IRS_VBIAS_ADDR)  , vbias
+        self.vbias2  = asic(IRS_VBIAS2_ADDR) , vbias2
+        self.itbias  = asic(IRS_ITBIAS_ADDR) , itbias
+        self.tbbias  = asic(IRS_TBBIAS_ADDR) , tbbias
+        self.digreg  = asic(IRS_DIGREG_ADDR) , digreg
+        # set of channels
+        self.chan = []
+        for i in range(0,8):
+            self.chan[i] = ChannelSettings(asicNum=asicNum, chNum=i,wbias=1000,vofs1=2048,vofs2=2048,thresh_offset=2450)
+
+# trig FSM values
 class trigFSM():
-    def __init__(self):
-        self.data_addr_bef = 0
-        self.data_addr_aft = 0
-        self.data_addr_offset = 0
-        self.data_addr_bitCount = 0
-        self.soft_trig_en = bool
+    def __init__(self , num_bef , num_aft , num_offset , num_bitcount):
+        self.data_addr_bef      = IRS_DATA_BEF      , num_bef
+        self.data_addr_aft      = IRS_DATA_AFT      , num_aft
+        self.data_addr_offset   = IRS_DATA_OFFSET   , num_offset
+        self.data_addr_bitCount = IRS_DATA_BITCOUNT , num_bitcount
+        self.soft_trig          = IRS_SOFT_TRIG     , 0x50f7
 
 class PixelData():
-    def __init__(self, data={}):
+    def __init__(self, data):
         self.data = data
 
-class Pixel():
-    def __init__(self, pixelNum, bitNum, asicNum, asicCh, PixelData):
-        self.pixelNum = 0
-        self.bitNum   = 0
-        self.asicNum  = 0
-        self.asicCh   = 0
-        self.data     = PixelData()
+# class Pixel():
 
-# make a class to store all of the board attributes
-class IrsBoard(lappd.Board):
-    def __init__(self, ipAddr, name="IrsBoard", Asics=[], regMap={}):
-        super().__init__(ipAddr)
-        self.name = name
-        self.Asics = Asics
-        self.regMap = regMap
+#     # static variable - every pixel reads from the same address..
+#     integration_time = IRS_SCALER_PRD , 0
+
+#     def __init__(self, pixelNum, mapping):
+#         for item in mapping:
+#             if item['pixelNum'] == pixelNum:  # found the pixel we're looking for
+#                 self.bitNum   = item['bitNum']
+#                 self.asicNum  = item['jNum']
+#                 self.asicCh   = item['asicChNum']
+#                 self.asicRow  = item['row']
+#                 self.asicCol  = item['col']
+#                 self.readNum  = item['readNum']
+#                 break # we found it, so we can stop looking
+#         # include a place to store data for a particular pixel
+#         get_scaler = lambda x: (IRS_SCALER_VAL | x << 2)
+#         self.scalerVal = get_scaler(self.bitNum) , 0
+#         # self.data = PixelData()
+
+# # make a class to store all of the board attributes
+# class IrsBoard(Board):
+#     # only need an ip addr to find a board..
+#     def __init__(self, ipAddr, name="IrsBoard@"+str(ipAddr), outputcard='slow'):
+#         # make the board from the lappd.board class..
+#         super().__init__(ipAddr)
+
+#         # give each board a unique name
+#         self.name = name
+
+#         # make sure you know what kind of card you're connected to..
+#         self.outputcard = outputcard # ('fast' or 'slow') card is connected to the board
+
+#         # load the fsm members
+#         self.trigFSM = trigFSM(num_bef=1 , num_aft=1 , num_offset=1 , num_bitcount=1)
+
+#         # set the values in the transaction list
+#         self.poke( self.data_addr_bef[0]      , self.data_addr_bef[1]      , silent=True )
+#         self.poke( self.data_addr_aft[0]      , self.data_addr_aft[1]      , silent=True )
+#         self.poke( self.data_addr_offset[0]   , self.data_addr_offset[1]   , silent=True )
+#         self.poke( self.data_addr_bitCount[0] , self.data_addr_bitCount[1] , silent=True )
+
+#         # send the info to the board and set up the fsm
+#         self.transact()
+#         self.clearTransactions() # useful to reduce full frame size.
+
+#         # values to determine asic settings..
+#         self.asics = []
+#         for i in range(0,8):
+#             self.asics[i] = Asic(asicNum=i, vbias=1100, vbias2=950, itbias=1300, tbbias=1300, digreg=5)
+#             self.poke( self.asic[i].vbias[0] ,self.asic[i].vbias[1]  , silent=True )
+#             self.poke( self.asic[i].vbias2[0],self.asic[i].vbias2[1] , silent=True )
+#             self.poke( self.asic[i].itbias[0],self.asic[i].itbias[1] , silent=True )
+#             self.poke( self.asic[i].tbbias[0],self.asic[i].tbbias[1] , silent=True )
+#             self.poke( self.asic[i].digreg[0],self.asic[i].digreg[1] , silent=True )
+#             # list of channels
+#             self.asic[i].chan = []
+#             for j in range(0,8):
+#                 self.asic[i].chan[j] = ChannelSettings(asicNum=asicNum, chNum=i,wbias=1000,vofs1=2048,vofs2=2048,thresh_offset=2450)
+#                 self.poke( self.asic[i].chan[j].wbias[0]         , self.asic[i].chan[j].wbias[1], silent=True )
+#                 self.poke( self.asic[i].chan[j].vofs1[0]         , self.asic[i].chan[j].vofs1[1], silent=True )
+#                 self.poke( self.asic[i].chan[j].vofs2[0]         , self.asic[i].chan[j].vofs2[1], silent=True )
+#                 self.poke( self.asic[i].chan[j].thresh_offset[0] , self.asic[i].chan[j].thresh_offset[1], silent=True )
+
+#             # can't read from the asic registers..
+#             self.peek( IRS_ITCHY_SCRATCHY )
+#             self.transact()
+#             self.clearTransactions() # useful to reduce full frame size.
+
+#         # set up an integration time for the pixels
+#         # values to determine pixel mapping, thresholds, scaler counts, etc
+#         self.pixels = []
+#         self.mappingfile = 'all_pixel_mapping.json'
+#         with open(self.mappingfile, "r") as f:
+#             allmappings = json.load(f)
+#             # make the check only once to see which mapping to use
+#             if self.outputcard == 'slow':
+#                 mapping = allmappings['slowoutputCard']
+#             elif self.outputcard == 'fast':
+#                 mapping = allmappings['fastoutputCard']
+#             else:
+#                 print("what are you doin?")
+#                 return 0
+#         for pixelNum in range(1,65):
+#             self.pixels = Pixel(pixelNum , mapping)
+
+filename = "blah"
+filename = filename + ".txt"
+print(filename)
+
+list2 = []
+for i in range(1,65):
+    list2.append(i)
+
+for count, val in enumerate(list2):
+    print(count, val, list2[count])

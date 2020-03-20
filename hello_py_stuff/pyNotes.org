@@ -1,0 +1,188 @@
+#+TITLE: Python org -notes
+
+* isinstance
+#+BEGIN_SRC python
+dic1 = {1 : 2}
+
+dicDic1 = {}
+for i in range(0,64):
+    dicDic1[i] = {'this': 1}
+
+list1 = []
+def checkDictType(pix_thresh):
+   """ this function saves the previous threshold values in a file.. """
+   # let user know what you're doing.
+   if isinstance(pix_thresh , dict):
+       try:
+          print("saving thresholds..")
+          for key , value in pix_thresh.items():
+              # is the value type also a dictionary?
+              if isinstance(value , dict):
+                 print('dict value type')
+                 break
+              # if the thing isn't a dictionary
+              else:
+                  print('not dict type!')
+       except Exception as ex:
+           print("no work! exception found:")
+           print(ex)
+   else:
+       print("not appropriate! :(")
+
+# succeed all checks and enters break
+checkDictType(dicDic1)
+# goes into the else: statement inside of the try
+checkDictType(dic1)
+print("trying list")
+# enters first else statement!
+checkDictType(list1)
+
+#+END_SRC
+** type
+
+*** compare type and is instance
+#+BEGIN_SRC python
+class Vehicle:
+    pass
+
+class Truck(Vehicle):
+    pass
+isinstance(Vehicle(), Vehicle)  # returns True
+type(Vehicle()) == Vehicle      # returns True
+isinstance(Truck(), Vehicle)    # returns True
+type(Truck()) == Vehicle        # returns False, and this probably won't be what you want.
+#+END_SRC
+
+** duck typing
+* python_tryExcept
+** main code
+#+BEGIN_SRC python
+def getUserInputInt():
+    running = True
+    while running:
+        try:
+            user_input = int(input("please enter somethign you want to do.."))
+            running = False
+        except ValueError:
+            print("you did not enter an integer..")
+            running = True
+        # this prevents Ctr-C from exiting the program..
+        except KeyboardInterrupt:
+            print("you tryna leave mate?")
+
+def myFunc(arg1 , arg2):
+    assert(arg2 != 0), "you don't want to divide by 0"
+    return arg1 / arg2
+
+# assertion errors from functions.
+def getUserInput():
+    running = True
+    while running:
+        try :
+            user_input = int(input("please enter some integer to divide by.."))
+            myFunc(5,user_input)
+            running = False
+        except AssertionError:
+            running = True
+            print("what the fuck are you thinkin dividing by zero?")
+
+# lets try some standard file I/O errors..
+def readFile():
+    running = True
+    while running:
+        try:
+            file_name = input("please enter the name of the file you want to read from: ")
+            with open(file_name, 'r') as f:
+                print("hey you opened the file.")
+                contents      = f.read()
+                running = False
+                # this exception occurs if the file to read does not exist.
+        except IOError:
+            print("son, that doesn't fuckin exist.\nTry that shit again..")
+            running = True
+
+# x in contents is every single value in the file
+for val, x in enumerate(contents):
+    print(val, x)
+
+# lets see what happens if we test your user input against int values..
+val = 5
+try:
+    print(user_input + val)
+except TypeError:
+    print("you did not enter an int value..")
+#+END_SRC
+
+* tables
+
+** full list of school information
+
+*** quick school comparison table
+
+| school 1 | tuition | state | link                 |
+|----------+---------+-------+----------------------|
+| OSU      |         |       | https://vet.osu.edu/ |
+| Boulder  |         |       |                      |
+| Maryland |         |       |                      |
+
+*** bulleted information
+- things 1
+- things 2
+
+** more stuff to consider:
+
+* usingJson
+
+*** get the json module and load the data
+#+BEGIN_SRC python
+import json
+pixelData = 'pixelData.json'
+with open(pixelData) as f:
+    # allPixelData is not a list of dictionary types
+    allPixelData = json.load(f)
+#+END_SRC
+*** make sure you're looking at what you want
+#+BEGIN_SRC python
+for pixelMap in allPixelData["allPixelMappings"]:
+    pixelNum = pixelMap['pixelNum']
+    readNum  = pixelMap['readNum']
+    # do your thing with the items :)
+    print(pixelNum , readNum)
+#+END_SRC
+* User interface function
+** list of functions:
+#+BEGIN_SRC python
+def fnc1():
+    print("using fnc1")
+
+def fnc2():
+    print("using fnc2")
+
+def fnc3():
+    print("using fnc3")
+
+#+END_SRC
+** The handling function
+- define a function which stores a dict which holds all of the functions you intend to call
+#+BEGIN_SRC python
+def selectUserChoice(key):
+    userChoice_default = {
+        'a' : fnc1 ,
+        'b' : fnc1 ,
+        'c' : fnc1 ,
+        'd' : fnc2 ,
+        'e' : fnc2 ,
+        'f' : fnc2 }
+    val = userChoice_default.get(key, fnc3)
+    return val
+#+END_SRC
+** The user interaction
+- use a while loop to manage the exit condition
+- make sure to call the function returned from selectUserChoice
+- each function return from selectUserChoice manages its own progression
+#+BEGIN_SRC python
+userinput = input("please provide user input: ")
+while userinput != "exit":
+    selectUserChoice(userinput)()
+    userinput = input("please provide user input: ")
+#+END_SRC
