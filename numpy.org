@@ -1,0 +1,232 @@
+#+TITLE: Numpy
+#+TOC
+* useful things learned:
+** random
+- make sure to include the results file option
+#+BEGIN_SRC python :results file
+import numpy as np
+import matplotlib.pyplot as plt
+
+# get an array of gaussian values, plot it and save it, then view it:
+gaus = np.random.normal(5, 1, 1000)
+plt.hist(gaus)
+plt.savefig('images/gaus.png')
+return 'images/gaus.png'
+
+#+END_SRC
+
+#+RESULTS:
+[[file:images/gaus.png]]
+** fits - SciPy
+*** fitting histogram
+
+#+BEGIN_SRC python :results file
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+
+# normal distro
+x = np.random.normal(5, 1, 100)
+_, bins, _ = plt.hist(x, density=1)
+
+mu, sigma = norm.fit(x)
+best_fit_line = norm.pdf(bins, mu, sigma)
+plt.plot(bins, best_fit_line)
+
+plt.savefig("images/normFit.png")
+return "images/normFit.png"
+
+#+END_SRC
+
+#+RESULTS:
+[[file:images/normFit.png]]
+** curve fit scipy
+curve fitting with scipy
+- define function
+- get x and y 'random data'
+*** fitting curve to data
+#+BEGIN_SRC python :results file
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+
+# function to fit
+def gaus(x, mu, sigma):
+    return 1 / np.sqrt(2*np.pi*sigma**2) * np.exp(-1*(x-mu)**2/(2*sigma**2))
+
+
+# get some random values
+x = np.linspace(-1, 1, 100)
+y = gaus(x,np.mean(x),np.std(x)) # feed in to our gaus fnc
+y_noise = np.random.normal(0,0.01,100) # include some 'noise' on this signal
+y += y_noise
+
+# fit data
+popt, pcov = curve_fit(gaus, x, y)
+# get the data back:
+y_new = gaus(x, *popt)
+# get the errors for our fit:
+perr = np.sqrt(np.diag(pcov))
+
+# histogram
+plt.scatter(x, y, color='red')
+f = lambda x : "{:.1E}".format(x) # formating with lambdas
+plt.plot(x, y_new, label="error: %s +/- %s" % (f(perr[0]), f(perr[1])))
+plt.legend()
+
+plt.savefig("images/sciCurveFit.png")
+return "images/sciCurveFit.png"
+
+#+END_SRC
+
+#+RESULTS:
+[[file:images/sciCurveFit.png]]
+
+** array values
+#+BEGIN_SRC python
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.arange(3)
+return x
+
+#+END_SRC
+
+#+RESULTS:
+| 0 | 1 | 2 |
+
+** linspace
+#+BEGIN_SRC python
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.linspace(0,4,5)
+return x
+
+#+END_SRC
+
+#+RESULTS:
+| 0 | 1 | 2 | 3 | 4 |
+** Monte Carlo stuff
+- get the basic equation to model
+ 
+#+BEGIN_SRC python :results file
+import numpy as np
+import matplotlib.pyplot as plt
+
+# set up the possible positions on the top bar
+p1 = np.linspace(0,20,50)
+
+# make the angle distribution "cos**2"
+def make_cos2(p1):
+    """given the initial top bar position, find the path"""
+    pass
+
+# get random point intersection
+def get_muons(runs, pos):
+    evts = []
+    for i in range(runs):
+        evts.append(np.random.choice(pos))
+
+    # give back an np array
+    return np.array(evts)
+
+# make the limits [0,1)
+def cos2(x):
+    f = np.pi*x - np.pi/2
+    return np.cos(f)**2
+
+# random sampling
+x = np.random.sample(size=100)
+y = cos2(x)
+acy = np.arccos(np.sqrt(x))
+# plt.hist(y)
+# plt.scatter(x, acy)
+# plt.hist(acy, density=1)
+plt.scatter(x,y)
+
+plt.savefig("images/carlo.png")
+return "images/carlo.png"
+
+#+END_SRC
+
+#+RESULTS:
+[[file:images/carlo.png]]
+** scipy and generating your own random variable sampler:
+getting into it here..
+#+BEGIN_SRC python :results file
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import rv_continuous
+
+# subclassing rv_continuous
+# make sure to define lower(a) and upper(b) bounds..
+class gen_cont(rv_continuous):
+    "cos^2 distro"
+    def _pdf(self, x):
+        # normalize and change the bounds for x in [0,1)
+        return np.cos(x)**2 / (np.pi/2)
+
+# random pdf
+c2 = gen_cont(name="muon", a=-np.pi/2, b=np.pi/2)
+x = np.linspace(-np.pi/2,np.pi/2,1000)
+y = c2.rvs(size=1000)
+pdf = c2.pdf(x)
+cdf = c2.cdf(x)
+plt.hist(y)
+# plt.plot(x,pdf)
+# plt.plot(x,cdf)
+plt.savefig("images/cdfGen.png")
+return "images/cdfGen.png"
+
+#+END_SRC
+
+#+RESULTS:
+[[file:images/cdfGen.png]]
+
+** iter on user fnc
+#+BEGIN_SRC python :results output
+import numpy as np
+def printer(x, b):
+    return x*b
+x = np.arange(3)
+print(x)
+val = printer(x,1)
+print(val)
+#+END_SRC
+
+#+RESULTS:
+: [0 1 2]
+: [0 1 2] 1
+: [0 1 2]
+
+* things where we want to store images of the things we make
+* test space
+- timing resolutions using amplitudes
+#+BEGIN_SRC python :results file
+import numpy as np
+import matplotlib.pyplot as plt
+
+c = 3e10 # (cm/s)
+dx = 1 # (cm) expected sigma in distance
+dt = 50e-12 # (ps) expected sigma in time
+
+# get a bunch of different n values for n
+n = np.linspace(1,2,50)
+
+# get relative velocities:
+def vel(n):
+    return c / n
+v = vel(n)
+
+# solve for time with amplitude v = dx / dt => v*dt
+def get_dx(vel, del_t):
+    return vel * del_t
+x = get_dx(v, dt)
+plt.scatter(x, v)
+plt.savefig('images/vGraph.png')
+return 'images/vGraph.png'
+
+#+END_SRC
+
+#+RESULTS:
+[[file:images/vGraph.png]]
