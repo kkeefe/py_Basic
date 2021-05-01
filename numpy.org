@@ -48,8 +48,10 @@ curve fitting with scipy
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+from numba import jit
 
 # function to fit
+@jit(nopython=True)
 def gaus(x, mu, sigma):
     return 1 / np.sqrt(2*np.pi*sigma**2) * np.exp(-1*(x-mu)**2/(2*sigma**2))
 
@@ -61,9 +63,7 @@ y += y_noise
 
 # fit data
 popt, pcov = curve_fit(gaus, x, y)
-# get the data back:
 y_new = gaus(x, *popt)
-# get the errors for our fit:
 perr = np.sqrt(np.diag(pcov))
 
 # histogram
@@ -74,7 +74,6 @@ plt.legend()
 
 plt.savefig("images/sciCurveFit.png")
 return "images/sciCurveFit.png"
-
 #+END_SRC
 
 #+RESULTS:
@@ -85,13 +84,13 @@ return "images/sciCurveFit.png"
 import numpy as np
 import matplotlib.pyplot as plt
 
-x = np.arange(3)
+x = np.arange(4)
 return x
 
 #+END_SRC
 
 #+RESULTS:
-| 0 | 1 | 2 |
+| 0 | 1 | 2 | 3 |
 
 ** linspace
 #+BEGIN_SRC python
@@ -175,7 +174,6 @@ cdf = c2.cdf(x)
 #+END_SRC
 
 #+RESULTS:
-| <matplotlib.lines.Line2D | object | at | 0x12b2781c0> |
 
 ** calculating positions between bars with an angle theta
 *** carlo setup
@@ -533,7 +531,42 @@ std::cout << "hello world! " << val << "\n";
 
 ** more advanced with c++
 
-#+begin_src C++ :includes [list '<iostream>' '<vector>'] :results output
-auto val = 5+2;
-std::cout << "hello world! " << val << "\n";
+#+begin_src C++ :includes [list "<iostream>" "<vector>"] :results output
+std::vector<float> bla = {1,2,3,4};
+std::cout << "hello world! " << bla[0] << "\n";
 #+end_src
+
+#+RESULTS:
+: hello world! 1
+
+- extra args:
+  + root path - /home/kpkeefe/root_builds/root/build/include
+  + includes -[list "<iostream>" "<vector>" "test.h" "TApplication.h" "TROOT.h" "TCanvas.h" "TGraph.h"]
+  + `root-config --cflags --glibs` -I /home/kpkeefe/Documents/py_Basic/ -I /home/kpkeefe/root_builds/root/build/include
+  + working single line:
+    - g++ main.cc $(root-config --libs) $(root-config --cflags)
+    - $(root-config --libs)   : -L/home/kpkeefe/root_builds/root/build/lib
+    - $(root-config --cflags) : -pthread -std=c++11 -m64 -I/home/kpkeefe/root_builds/root/build/include
+
+- including yourself:
+  + (defvar org-babel-default-header-args:cpp '((:flags . "-std=c++14")))
+  + :flags "$(root-config --libs) $(root-config --cflags) -O0" :includes [list "<iostream>" "<vector>" "TCanvas.h"]
+
+
+#+header: :includes [list "test.h" "TGraph.h" "TCanvas.h" <iostream> <string>]
+#+header: :results file
+#+begin_src C++
+// gROOT->SetBatch(true);
+TCanvas c("", "", 500, 500);
+double x[] = {1,2,3};
+double y[] = {1,4,12};
+foo a = foo();
+TGraph tg(3,x,y);
+tg.Draw();
+c.Draw();
+c.Print("images/file.png");
+std::cout << "images/file.png";
+#+end_src
+
+#+RESULTS:
+[[file:images/file.png]]
