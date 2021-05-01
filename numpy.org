@@ -1,5 +1,5 @@
 #+TITLE: Numpy
-* useful things learned:
+* Useful things learned:
 ** random
 - make sure to include the results file option
 #+BEGIN_SRC python :results file
@@ -52,7 +52,6 @@ from scipy.optimize import curve_fit
 # function to fit
 def gaus(x, mu, sigma):
     return 1 / np.sqrt(2*np.pi*sigma**2) * np.exp(-1*(x-mu)**2/(2*sigma**2))
-
 
 # get some random values
 x = np.linspace(-1, 1, 100)
@@ -522,4 +521,19 @@ print(val)
 : [0 1 2]
 : [0 1 2] 1
 : [0 1 2]
+* More things to practice:
+** getting started with c++
+#+begin_src C++ :includes <iostream> :results output
+auto val = 5+2;
+std::cout << "hello world! " << val << "\n";
+#+end_src
 
+#+RESULTS:
+: hello world! 7
+
+** more advanced with c++
+
+#+begin_src C++ :includes [list '<iostream>' '<vector>'] :results output
+auto val = 5+2;
+std::cout << "hello world! " << val << "\n";
+#+end_src
