@@ -529,7 +529,7 @@ std::cout << "hello world! " << val << "\n";
 #+RESULTS:
 : hello world! 7
 
-** more advanced with c++
+** more advanced with c++ - list includes and output
 
 #+begin_src C++ :includes [list "<iostream>" "<vector>"] :results output
 std::vector<float> bla = {1,2,3,4};
@@ -547,19 +547,21 @@ std::cout << "hello world! " << bla[0] << "\n";
     - g++ main.cc $(root-config --libs) $(root-config --cflags)
     - $(root-config --libs)   : -L/home/kpkeefe/root_builds/root/build/lib
     - $(root-config --cflags) : -pthread -std=c++11 -m64 -I/home/kpkeefe/root_builds/root/build/include
+  + NOTE: for debugging you can use this bad boy within tap mode:
+    - g++ main.cc $(root-config --libs) $(root-config --cflags) -ggdb -o execFile
 
 - including yourself:
   + (defvar org-babel-default-header-args:cpp '((:flags . "-std=c++14")))
   + :flags "$(root-config --libs) $(root-config --cflags) -O0" :includes [list "<iostream>" "<vector>" "TCanvas.h"]
 
-
+** compiling root and printing images
 #+header: :includes [list "test.h" "TGraph.h" "TCanvas.h" <iostream> <string>]
 #+header: :results file
 #+begin_src C++
 // gROOT->SetBatch(true);
 TCanvas c("", "", 500, 500);
 double x[] = {1,2,3};
-double y[] = {1,4,12};
+double y[] = {1,4,22};
 foo a = foo();
 TGraph tg(3,x,y);
 tg.Draw();
@@ -570,3 +572,50 @@ std::cout << "images/file.png";
 
 #+RESULTS:
 [[file:images/file.png]]
+
+** getting values into compiled c++ code
+
+#+tblname:val
+| 1 | 2 | 3 |
+| 4 | 5 | 6 |
+
+#+header: :var val=val
+#+begin_src C++
+std::cout << "val " << val[1][1] << std::endl;
+#+end_src
+
+#+RESULTS:
+: val 5
+
+#+tblname:val2
+| a | b | c |
+| 1 | 7 | 3 |
+| 4 | 5 | 6 |
+
+#+header: :var val=val2
+#+begin_src C++
+std::cout << "val " << val[0][1] << std::endl;
+#+end_src
+
+#+RESULTS:
+: val b
+
+** more things
+
+#+begin_src python :session t
+import ROOT
+tb = ROOT.TBrowser("", "", 1500, 750)
+#+end_src
+
+#+RESULTS:
+
+#+begin_src python :results output
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.array([1,2,3])
+y = np.array([1,2,3])
+print('this thing')
+#+end_src
+
+#+RESULTS:
+: this thing
