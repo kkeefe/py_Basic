@@ -11,7 +11,7 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(SOURCES) $(LDFLAGS) -o $@
 
 .cc.o:
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< $(LDFLAGS) -o $@
 
 clean:
 	rm ./*~ ./*.o
