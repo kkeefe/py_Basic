@@ -9,7 +9,8 @@
 
 using namespace std;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 
     double x[] = {1,2,3};
     double y[] = {1,4,9};

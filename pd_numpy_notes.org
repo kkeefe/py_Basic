@@ -1,0 +1,467 @@
+#+TITLE: Test
+
+* org src blocks for testing
+
+** calculate exp growth
+
+#+begin_src python :results file
+import numpy as np
+import matplotlib.pyplot as plt
+
+def calcYearReturn(startVal, years, interest, contribution):
+    """
+    Values:
+    starVal      - Money in dollars of initial value
+    years        - Integer number of years to run the calculation
+    interest     - Annual compounding whole number percent
+    contribution - Annual contribution to invested value
+    """
+    x = np.arange(1,years+1)
+    y = np.zeros(years)
+    y[0] = startVal
+
+    interestMethod = (1.0+interest/100.0)
+
+    # running sum of interest with contribution
+    for yr in range(1, years):
+        y[yr] = (y[yr-1] + contribution)*interestMethod
+    return y
+
+# hard code values
+vals = [2.8e6, 0.3e6]
+names = ["Palo Alto", "Austin"]
+colors = ["green", "pink"]
+strategies = ["Interest Only", "Savings and Interest"]
+startVal = 1e5
+years = 70
+interest = 5.0 # percent
+contribution = 12000 # max roth IRA for two people
+fig, ax = plt.subplots()
+plt.xlabel('Year')
+plt.ylabel('Money in Mega Dollars')
+
+# maths
+x = np.arange(1,years+1)
+y = np.array([startVal*((1.0+interest/100.0)**(yr-1)) for yr in x])
+y_val = calcYearReturn(startVal, years, interest, contribution)
+
+# every investment strategy and every city
+for i, val in enumerate(vals):
+    p = ax.axhline(val, color=f"{colors[i]}", label=f"{names[i]}")
+for i, method in enumerate((y, y_val)):
+    yr = np.argmax(method>max(vals))
+    interestOnly = ax.plot(x[:yr+1],method[:yr+1], label=f"{strategies[i]}")
+leg = ax.legend()
+
+# returns
+plt.savefig('exp.png')
+return 'exp.png'
+#+end_src
+
+#+RESULTS:
+[[file:exp.png]]
+
+** geo data
+
+[[https://github.com/andrea-cuttone/geoplotlib/wiki/User-Guide][github link for the geoplotlib]]
+
+Need the data from the github to download it here
+#+begin_src shell
+wget https://raw.githubusercontent.com/andrea-cuttone/geoplotlib/master/examples/data/opencellid_dk.csv
+#+end_src
+
+Now we can look at the data
+#+begin_src python
+import geoplotlib
+from geoplotlib.utils import read_csv, BoundingBox
+data = read_csv('opencellid_dk.csv')
+geoplotlib.hist(data, colorscale='sqrt', binsize=8)
+geoplotlib.set_bbox(BoundingBox.DK)
+geoplotlib.show()
+#+end_src
+
+** zillow csv data
+
+getting good at the things we want to be good at
+
+*** using csv reader
+
+#+begin_src python :results output :session zsv
+import csv
+filename = "ZillowData.csv"
+with open(filename, newline='') as csvfile:
+    spamreader = csv.reader(csvfile, delimiter=',')
+    for i, row in enumerate(spamreader):
+        if i==0:
+            print(row)
+        if len(row) != 309:
+            print(f"index {i} does not have 309 entries")
+#+end_src
+
+*** using pandas
+
+#+begin_src python :results output
+import pandas as pd
+import numpy as np
+filename = "ZillowData.csv"
+
+# put this data into a dataframe
+df = pd.read_csv(filename)
+print(df.head(2))
+regions = df['RegionName']
+states = df['StateName']
+region_type = df['RegionType']
+array = np.array(regions)
+array_states = np.array(states)
+array_type = np.array(region_type)
+# print(array)
+print(df.columns[:6])
+print(array_states[1:30])
+print(array_type)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   RegionID  SizeRank     RegionName  ... 2021-02-28 2021-03-31  2021-04-30
+0    102001         0  United States  ...   274388.0   277672.0    281370.0
+1    394913         1   New York, NY  ...   520568.0   525123.0    530082.0
+
+[2 rows x 309 columns]
+Index(['RegionID', 'SizeRank', 'RegionName', 'RegionType', 'StateName',
+       '1996-01-31'],
+      dtype='object')
+['NY' 'CA' 'IL' 'TX' 'PA' 'TX' 'DC' 'FL' 'GA' 'MA' 'CA' 'MI' 'CA' 'AZ'
+ 'WA' 'MN' 'CA' 'MO' 'FL' 'MD' 'CO' 'PA' 'OR' 'NC' 'CA' 'TX' 'FL' 'OH'
+ 'OH']
+['Country' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa'
+ 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa' 'Msa']
+#+end_example
+
+#+begin_src python :results file
+import pandas as pd
+filename = "ZillowData.csv"
+
+# put this data into a dataframe
+df = pd.read_csv(filename)
+ax = df.plot.bar(x='StateName', y='2020-12-31', rot=0)
+
+# returns
+fig = ax.get_figure()
+fig.savefig('zillow.png')
+return 'zillow.png'
+#+end_src
+
+#+RESULTS:
+[[file:zillow.png]]
+
+#+begin_src python :results file
+import pandas as pd
+filename = "ZillowData.csv"
+
+# put this data into a dataframe
+df = pd.read_csv(filename)
+ax = df.plot.pie(y='RegionID')
+
+# returns
+fig = ax.get_figure()
+fig.savefig('zillow_pie.png')
+return 'zillow_pie.png'
+
+#+end_src
+
+#+RESULTS:
+[[file:zillow_pie.png]]
+** quick pandas df examples:
+
+more pandas notes to compliment numpy.org files too
+
+*** Make a dataframe from a dictionary
+#+begin_src python :results output
+import pandas as pd
+myData = {
+    'x' : [1,2,3],
+    'y' : [1,4,9],
+    'z' : ['first','second','third']
+}
+df = pd.DataFrame(myData)
+print(df, "\nmade a pandas dataframe!")
+#+end_src
+
+#+RESULTS:
+:    x  y       z
+: 0  1  1   first
+: 1  2  4  second
+: 2  3  9   third
+: made a pandas dataframe!
+
+*** Extract interesting things from a dataframe:
+
+#+begin_src python :results output
+import pandas as pd
+import numpy as np
+myData = {
+    'x' : [1,2,3],
+    'y' : [1,4,9],
+    'z' : ['first','second','third']
+}
+df = pd.DataFrame(myData)
+
+# extract columns of interest from a dataframe
+xVals = df['x']
+yVals = df['y']
+
+# get the list of columns
+cols = df.columns
+
+# convert pd.Series to numpy
+xData = xVals.to_numpy()
+yData = yVals.to_numpy()
+zData = df['z'].to_numpy() # single line it
+
+# snag sections of a dataframe if you only care about certain columns:
+df2 = df[['x', 'y']]
+
+# snag the row that you want if you don't want a column:
+row1 = df.iloc[1]
+rows = df.iloc[[0,1]]
+# equivalent
+rows_cols = df.iloc[[0,1], 2]
+rows_cols = df.loc[[0,1], 'z']
+# print(rows)
+# print(rows_cols, type(rows_cols))
+
+# change the index for the dataframe, and access by new index
+dfz = df.set_index('z')
+print(dfz.loc['first'], '\n')
+print(dfz.loc['first', 'x'], '\n')
+# dfz.reset_index(inplace=True)
+print(dfz, '\n')
+#+end_src
+
+#+RESULTS:
+#+begin_example
+x    1
+y    1
+Name: zfirst, dtype: int64
+
+1
+
+        x  y
+z
+zfirst  1  1
+second  2  4
+third   3  9
+
+#+end_example
+
+#+begin_src python :results file :session pd
+import matplotlib.pyplot as plt
+fig, ax = df2.plot()
+fig.savefig('test.png')
+return 'test.png'
+#+end_src
+
+#+RESULTS:
+[[file:]]
+*** Filtering data on DataFrames and Series objects
+
+#+begin_src python :results output
+import pandas as pd
+myData = {
+    'x' : [1,2,3],
+    'y' : [1,4,9],
+    'z' : ['first','second','third'],
+    'letters' : ['a,b,c','b,c,d','a,d,e']
+}
+df = pd.DataFrame(myData)
+
+# bool operators act on every item returned on the series
+# xVals = df['x']
+
+# gets another pandas.Series in filt..
+# filt = (xVals != 2)
+
+# get all of the df that match these condition
+# print(df[filt])
+# snag all of the 'x' values that pass the 'y' filter
+# print(df.loc[filt, 'x'])
+
+# combine filter experssions, logical expressions &, |
+# filt = (df['x'] != 3) & (df['y'] < 7)
+# negate search, grab extra columns
+# print(df.loc[~filt, ['x', 'z']])
+
+# isin list, column that matches a list of values that we want
+# good_vals = ['first', 'third']
+# filt = df['z'].isin(good_vals)
+# df2 = df[filt]
+# print(df2)
+
+# item of df has string, and we want a substr component that matches, 'ir' is in both first and third but not second..
+good_letters = df['letters'].str.contains('a')
+print(df.loc[good_letters, ['x', 'y']])
+
+#+end_src
+
+#+RESULTS:
+:    x  y
+: 0  1  1
+: 2  3  9
+*** Changing data in your DataFrame
+
+**** changing column names
+
+#+begin_src python :results output
+import pandas as pd
+myData = {
+    'x' : [1,2,3],
+    'y' : [1,4,9],
+    'z' : ['first','second','third'],
+    'letters' : ['a,b,c','b,c,d','a,d,e']
+}
+df = pd.DataFrame(myData)
+
+# changing column values
+# print(df.columns)
+# df.columns = ['a', 'b', 'c', 'alphabet']
+# print(df.columns)
+
+# str replace
+df.columns = ['a poo', 'b', 'c', 'alphabet']
+print(df.columns)
+df.columns = df.columns.str.replace(" ", "_")
+print(df.columns)
+
+# rename replace
+new_names = {
+    'a_poo' : 'x_poo',
+    'b' : 'y_poo',
+    'c' : 'z_poo',
+    'alphabet' : 'letter_poo'
+}
+df2 = df.rename(columns=new_names)
+print(df2.columns) # new names
+print(df.columns)  # use inplace=True to change
+
+#+end_src
+
+#+RESULTS:
+: Index(['a poo', 'b', 'c', 'alphabet'], dtype='object')
+: Index(['a_poo', 'b', 'c', 'alphabet'], dtype='object')
+: Index(['x_poo', 'y_poo', 'z_poo', 'letter_poo'], dtype='object')
+: Index(['a_poo', 'b', 'c', 'alphabet'], dtype='object')
+
+**** changing values in rows of a df
+
+#+begin_src python :results output
+import pandas as pd
+myData = {
+    'x' : [1,2,3],
+    'y' : [1,4,9],
+    'z' : ['first','second','third'],
+    'letters' : ['a,b,c','b,c,d','a,d,e']
+}
+df = pd.DataFrame(myData)
+
+
+
+#+end_src
+
+#+begin_src python :results output
+import geopandas
+
+#+end_src
+
+*** Things you can put into a numpy array:
+
+
+- apparently you can put whatever you want into an np array..
+
+#+begin_src python :results output
+import numpy as np
+
+class poo():
+    pass
+
+ar = np.array(['hi', 1, float, poo])
+
+print(ar, len(ar))
+
+#+end_src
+
+#+RESULTS:
+: ['hi' 1 <class 'float'> <class '__main__.poo'>] 4

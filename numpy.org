@@ -620,3 +620,11 @@ print('this thing')
 
 #+RESULTS:
 : this thing
+** sql things because we're a G
+
+#+begin_src sql :engine mysql
+dbms_output.put_line (‘Hello World..');
+#+end_src
+
+#+RESULTS:
+|---|

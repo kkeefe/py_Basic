@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Chapter 1...
 # message = "hello worlds!"
 # print(message)
@@ -1175,7 +1174,7 @@ wm2.render_to_file('countryies_and_monies.svg')
 #     def __init__ (self, name, cuisine_type):
 #         self.name = name
 #         self.food_type = cuisine_type
-#         #9.5 
+#         #9.5
 #         self.num_served = 0
 
 #     def describe_restaurant(self):
@@ -1557,7 +1556,7 @@ wm2.render_to_file('countryies_and_monies.svg')
 #             dates2.append(current_date)
 #             highs2.append(high)
 #             lows2.append(low)
-    
+
 # fig = plt.figure(dpi=128, figsize=(10,6))
 # # plot two different values on the graph calling each to plot this bad boi.
 # plt.plot(dates2, highs2, c='red')
@@ -1618,7 +1617,7 @@ def get_country_code(arg1):
             return 'fj'
         elif arg1 == 'Venezuela, RB':
             return 'vz'
-        
+
     # Ex 16-5 stuff
     # print("country name not found: %s" % arg1)
     return None
@@ -1636,7 +1635,7 @@ def get_country_code(arg1):
 # wm.render_to_file('americas.svg')
 ###################################################
 
-# what are we to do with all of the data? 
+# what are we to do with all of the data?
 ###################################################
 # let's make a complete pop map
 cc_populations = {}
@@ -1681,7 +1680,7 @@ for cc, pop in cc_populations.items():
 # wm.render_to_file('world_populations_filtered.svg')
 ###################################################
 
-# Ex 16-5 find the missing countries! 
+# Ex 16-5 find the missing countries!
 # modified the get function above
 
 # Ex 16-6 add gdp to this bad boi!
@@ -1727,4 +1726,3 @@ wm2.render_to_file('countryies_and_monies.svg')
 
 # sys_values = os.sys
 # print(sys_values)
->>>>>>> ef1fa5f03d0dc522c35426b67da3caeb06e5339c
