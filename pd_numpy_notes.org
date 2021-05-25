@@ -54,12 +54,12 @@ for i, method in enumerate((y, y_val)):
 leg = ax.legend()
 
 # returns
-plt.savefig('exp.png')
-return 'exp.png'
+plt.savefig('images/exp.png')
+return 'images/exp.png'
 #+end_src
 
 #+RESULTS:
-[[file:exp.png]]
+[[file:images/exp.png]]
 
 ** geo data
 
@@ -170,8 +170,8 @@ ax = fl_cities.plot.bar(y='2020-12-31', rot=0)
 
 # returns
 fig = ax.get_figure()
-fig.savefig('zillow.png')
-return 'zillow.png'
+fig.savefig('images/zillow.png')
+return 'images/zillow.png'
 #+end_src
 
 #+begin_src python :results file
@@ -186,8 +186,8 @@ ax = df2.plot()
 
 # returns
 fig = ax.get_figure()
-fig.savefig('zillowData.png')
-return 'zillowData.png'
+fig.savefig('images/zillowData.png')
+return 'images/zillowData.png'
 
 #+end_src
 
@@ -204,8 +204,8 @@ ax = df.plot.pie(y='RegionID')
 
 # returns
 fig = ax.get_figure()
-fig.savefig('zillow_pie.png')
-return 'zillow_pie.png'
+fig.savefig('images/zillow_pie.png')
+return 'images/zillow_pie.png'
 #+end_src
 
 ** quick pandas df examples:
@@ -292,8 +292,8 @@ third   3  9
 #+begin_src python :results file :session pd
 import matplotlib.pyplot as plt
 fig, ax = df2.plot()
-fig.savefig('test.png')
-return 'test.png'
+fig.savefig('images/test.png')
+return 'images/test.png'
 #+end_src
 
 #+RESULTS:

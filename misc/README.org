@@ -1,0 +1,9 @@
+#+TITLE: Readme
+
+* :toc:
+- [[#random-file-list-to-store-here-keeping-track-of-useful-things][Random File list to store here keeping track of useful things?]]
+  - [[#timerpy][timer.py]]
+
+* Random File list to store here keeping track of useful things?
+** timer.py
+Timer decorator for quickly decorating the things you want
