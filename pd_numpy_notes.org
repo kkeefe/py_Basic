@@ -74,7 +74,7 @@ Now we can look at the data
 #+begin_src python
 import geoplotlib
 from geoplotlib.utils import read_csv, BoundingBox
-data = read_csv('opencellid_dk.csv')
+data = read_csv('data/opencellid_dk.csv')
 geoplotlib.hist(data, colorscale='sqrt', binsize=8)
 geoplotlib.set_bbox(BoundingBox.DK)
 geoplotlib.show()
@@ -88,7 +88,7 @@ getting good at the things we want to be good at
 
 #+begin_src python :results output :session zsv
 import csv
-filename = "ZillowData.csv"
+filename = "data/ZillowData.csv"
 with open(filename, newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',')
     for i, row in enumerate(spamreader):

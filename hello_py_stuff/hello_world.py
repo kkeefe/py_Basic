@@ -608,9 +608,9 @@ eddies.get_flavors()
 # import csv
 # from datetime import datetime
 # # get the first line of a csv file..
-# filename = 'sitka_weather_07-2014.csv'
-# filename2 = 'sitka_weather_2014.csv'
-# filename3 = 'death_valley_2014.csv'
+# filename = '../data/sitka_weather_07-2014.csv'
+# filename2 = '../data/sitka_weather_2014.csv'
+# filename3 = '../data/death_valley_2014.csv'
 
 # # notice that the file is open only as long as the scope of the with statement..
 # with open(filename) as f:
@@ -1472,9 +1472,9 @@ wm2.render_to_file('countryies_and_monies.svg')
 # import csv
 # from datetime import datetime
 # # get the first line of a csv file..
-# filename = 'sitka_weather_07-2014.csv'
-# filename2 = 'sitka_weather_2014.csv'
-# filename3 = 'death_valley_2014.csv'
+# filename = '../data/sitka_weather_07-2014.csv'
+# filename2 = '../data/sitka_weather_2014.csv'
+# filename3 = '../data/death_valley_2014.csv'
 
 # # notice that the file is open only as long as the scope of the with statement..
 # with open(filename) as f:
