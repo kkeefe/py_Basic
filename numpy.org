@@ -562,7 +562,7 @@ std::cout << "hello world! " << bla[0] << "\n";
 // gROOT->SetBatch(true);
 TCanvas c("", "", 500, 500);
 double x[] = {1,2,3};
-double y[] = {1,4,22};
+double y[] = {1,4,12};
 foo a = foo();
 TGraph tg(3,x,y);
 tg.Draw();

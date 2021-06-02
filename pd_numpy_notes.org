@@ -106,7 +106,7 @@ with open(filename, newline='') as csvfile:
 #+begin_src python :results output
 import pandas as pd
 import numpy as np
-filename = "ZillowData.csv"
+filename = "./data/ZillowData.csv"
 
 # put this data into a dataframe
 df = pd.read_csv(filename)
@@ -118,7 +118,7 @@ region_type = np.array(set(df['RegionType']))
 
 # specific city
 florida_cities = df[df['StateName'] == "FL"]
-print(florida_cities['RegionName'])
+# print(florida_cities['RegionName'])
 
 
 # print(states)
@@ -126,6 +126,7 @@ print(florida_cities['RegionName'])
 
 #+RESULTS:
 #+begin_example
+{nan, 'WY', 'CA', 'MT', 'MO', 'AL', 'UT', 'DC', 'RI', 'GA', 'CO', 'TX', 'AR', 'WA', 'HI', 'NM', 'TN', 'OR', 'NE', 'DE', 'MS', 'MI', 'NC', 'LA', 'ID', 'MN', 'IL', 'VA', 'WV', 'MA', 'KY', 'ME', 'PA', 'VT', 'NJ', 'OK', 'KS', 'ND', 'AZ', 'IN', 'NV', 'WI', 'CT', 'SC', 'NY', 'MD', 'NH', 'AK', 'OH', 'SD', 'IA', 'FL'}
 8                   Miami-Fort Lauderdale, FL
 19                                  Tampa, FL
 27                                Orlando, FL
